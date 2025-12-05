@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>おさるのジョージ アスレチック</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Fredoka", sans-serif;
+        overflow: hidden;
+        background: linear-gradient(180deg, #87ceeb 0%, #98d8c8 50%, #4caf50 100%);
+        min-height: 100vh;
+      }
+
+      #gameContainer {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      /* 背景の雲 */
+      .cloud {
+        position: absolute;
+        background: white;
+        border-radius: 50px;
+        opacity: 0.9;
+        animation: floatCloud 20s linear infinite;
+      }
+
+      .cloud::before,
+      .cloud::after {
+        content: "";
+        position: absolute;
+        background: white;
+        border-radius: 50%;
+      }
+
+      .cloud1 {
+        width: 100px;
+        height: 40px;
+        top: 10%;
+        left: -100px;
+        animation-duration: 25s;
+      }
+      .cloud1::before {
+        width: 50px;
+        height: 50px;
+        top: -25px;
+        left: 15px;
+      }
+      .cloud1::after {
+        width: 35px;
+        height: 35px;
+        top: -15px;
+        left: 55px;
+      }
+
+      .cloud2 {
+        width: 80px;
+        height: 30px;
+        top: 20%;
+        left: -80px;
+        animation-duration: 30s;
+        animation-delay: 5s;
+      }
+      .cloud2::before {
+        width: 40px;
+        height: 40px;
+        top: -20px;
+        left: 10px;
+      }
+      .cloud2::after {
+        width: 30px;
+        height: 30px;
+        top: -12px;
+        left: 40px;
+      }
+
+      @keyframes floatCloud {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(calc(100vw + 200px));
+        }
+      }
+
+      /* 木の装飾 */
+      .tree {
+        position: absolute;
+        bottom: 0;
+      }
+
+      .tree-trunk {
+        width: 30px;
+        height: 100px;
+        background: linear-gradient(90deg, #8b4513, #a0522d, #8b4513);
+        margin: 0 auto;
+        border-radius: 5px;
+      }
+
+      .tree-leaves {
+        width: 80px;
+        height: 80px;
+        background: radial-gradient(circle, #228b22, #006400);
+        border-radius: 50%;
+        position: relative;
+        left: -25px;
+      }
+
+      .tree-leaves::before,
+      .tree-leaves::after {
+        content: "";
+        position: absolute;
+        background: radial-gradient(circle, #228b22, #006400);
+        border-radius: 50%;
+      }
+
+      .tree-leaves::before {
+        width: 60px;
+        height: 60px;
+        top: -20px;
+        left: 10px;
+      }
+
+      .tree-leaves::after {
+        width: 50px;
+        height: 50px;
+        top: 10px;
+        left: 50px;
+      }
+
+      .tree1 {
+        left: 5%;
+      }
+      .tree2 {
+        right: 5%;
+      }
+
+      /* ゲームキャンバス */
+      #gameCanvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+
+      /* UI */
+      #ui {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: 100;
+        display: flex;
+        gap: 20px;
+      }
+
+      .ui-box {
+        background: linear-gradient(145deg, #ffd700, #ffa500);
+        padding: 15px 25px;
+        border-radius: 20px;
+        box-shadow: 0 6px 0 #cc8400, 0 10px 20px rgba(0, 0, 0, 0.2);
+        color: #5d4037;
+        font-weight: 700;
+        font-size: 1.2em;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .ui-icon {
+        font-size: 1.5em;
+      }
+
+      /* タイトル画面 */
+      #titleScreen {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(180deg, #87ceeb 0%, #ffe4b5 50%, #90ee90 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 200;
+      }
+
+      #titleScreen h1 {
+        font-size: 3.5em;
+        color: #5d4037;
+        text-shadow: 3px 3px 0 #ffd700, 6px 6px 0 rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        animation: bounce 2s ease-in-out infinite;
+      }
+
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+
+      #titleScreen .subtitle {
+        font-size: 1.5em;
+        color: #8b4513;
+        margin-bottom: 40px;
+      }
+
+      .start-btn {
+        background: linear-gradient(145deg, #ff6b6b, #ee5a5a);
+        color: white;
+        border: none;
+        padding: 20px 60px;
+        font-size: 1.8em;
+        font-family: "Fredoka", sans-serif;
+        font-weight: 700;
+        border-radius: 50px;
+        cursor: pointer;
+        box-shadow: 0 8px 0 #cc4444, 0 15px 30px rgba(0, 0, 0, 0.3);
+        transition: all 0.1s;
+      }
+
+      .start-btn:hover {
+        transform: translateY(2px);
+        box-shadow: 0 6px 0 #cc4444, 0 12px 25px rgba(0, 0, 0, 0.3);
+      }
+
+      .start-btn:active {
+        transform: translateY(6px);
+        box-shadow: 0 2px 0 #cc4444, 0 5px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      /* ジョージのキャラクター（タイトル用） */
+      .george-title {
+        width: 150px;
+        height: 150px;
+        margin-bottom: 30px;
+        animation: swing 3s ease-in-out infinite;
+      }
+
+      @keyframes swing {
+        0%,
+        100% {
+          transform: rotate(-10deg);
+        }
+        50% {
+          transform: rotate(10deg);
+        }
+      }
+
+      /* 操作説明 */
+      .instructions {
+        margin-top: 40px;
+        text-align: center;
+        color: #5d4037;
+      }
+
+      .instructions p {
+        margin: 10px 0;
+        font-size: 1.1em;
+      }
+
+      .key-icon {
+        display: inline-block;
+        background: #ffd700;
+        padding: 8px 15px;
+        border-radius: 10px;
+        margin: 0 5px;
+        box-shadow: 0 3px 0 #cc8400;
+        font-weight: 700;
+      }
+
+      /* ゲームオーバー画面 */
+      #gameOverScreen {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 300;
+      }
+
+      #gameOverScreen.show {
+        display: flex;
+      }
+
+      #gameOverScreen h2 {
+        font-size: 3em;
+        color: #ffd700;
+        margin-bottom: 20px;
+      }
+
+      #gameOverScreen .final-score {
+        font-size: 2em;
+        color: white;
+        margin-bottom: 30px;
+      }
+
+      /* クリア画面 */
+      #clearScreen {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 215, 0, 0.9);
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 300;
+      }
+
+      #clearScreen.show {
+        display: flex;
+      }
+
+      #clearScreen h2 {
+        font-size: 3.5em;
+        color: #5d4037;
+        margin-bottom: 20px;
+        animation: bounce 1s ease-in-out infinite;
+      }
+
+      .confetti {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        animation: fall 3s linear infinite;
+      }
+
+      @keyframes fall {
+        from {
+          transform: translateY(-100vh) rotate(0deg);
+        }
+        to {
+          transform: translateY(100vh) rotate(720deg);
+        }
+      }
+
+      /* モバイル用コントロール */
+      #mobileControls {
+        position: absolute;
+        bottom: 20px;
+        left: 0;
+        right: 0;
+        display: none;
+        justify-content: space-between;
+        padding: 0 20px;
+        z-index: 100;
+      }
+
+      @media (max-width: 768px) {
+        #mobileControls {
+          display: flex;
+        }
+      }
+
+      .control-btn {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        background: linear-gradient(145deg, #ffd700, #ffa500);
+        border: none;
+        font-size: 2em;
+        box-shadow: 0 4px 0 #cc8400, 0 8px 15px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .control-btn:active {
+        transform: translateY(3px);
+        box-shadow: 0 1px 0 #cc8400, 0 3px 8px rgba(0, 0, 0, 0.3);
+      }
+
+      .direction-btns {
+        display: flex;
+        gap: 10px;
+      }
+
+      .action-btns {
+        display: flex;
+        gap: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="gameContainer">
+      <!-- 背景装飾 -->
+      <div class="cloud cloud1"></div>
+      <div class="cloud cloud2"></div>
+
+      <div class="tree tree1">
+        <div class="tree-leaves"></div>
+        <div class="tree-trunk"></div>
+      </div>
+      <div class="tree tree2">
+        <div class="tree-leaves"></div>
+        <div class="tree-trunk"></div>
+      </div>
+
+      <!-- ゲームキャンバス -->
+      <canvas id="gameCanvas"></canvas>
+
+      <!-- UI -->
+      <div id="ui" style="display: none">
+        <div class="ui-box">
+          <span class="ui-icon">🍌</span>
+          <span id="bananaCount">0</span>
+        </div>
+        <div class="ui-box">
+          <span class="ui-icon">⭐</span>
+          <span id="score">0</span>
+        </div>
+      </div>
+
+      <!-- タイトル画面 -->
+      <div id="titleScreen">
+        <svg class="george-title" viewBox="0 0 100 100">
+          <!-- ジョージの体 -->
+          <ellipse cx="50" cy="60" rx="25" ry="30" fill="#8B4513" />
+          <!-- お腹 -->
+          <ellipse cx="50" cy="65" rx="18" ry="20" fill="#D2691E" />
+          <!-- 顔 -->
+          <circle cx="50" cy="30" r="25" fill="#8B4513" />
+          <!-- 顔の明るい部分 -->
+          <ellipse cx="50" cy="35" rx="18" ry="15" fill="#D2B48C" />
+          <!-- 目 -->
+          <circle cx="42" cy="28" r="5" fill="white" />
+          <circle cx="58" cy="28" r="5" fill="white" />
+          <circle cx="43" cy="29" r="3" fill="#2C1810" />
+          <circle cx="59" cy="29" r="3" fill="#2C1810" />
+          <circle cx="44" cy="28" r="1" fill="white" />
+          <circle cx="60" cy="28" r="1" fill="white" />
+          <!-- 鼻 -->
+          <ellipse cx="50" cy="38" rx="4" ry="3" fill="#2C1810" />
+          <!-- 口 -->
+          <path d="M 44 44 Q 50 50 56 44" stroke="#2C1810" stroke-width="2" fill="none" />
+          <!-- 耳 -->
+          <circle cx="28" cy="25" r="8" fill="#8B4513" />
+          <circle cx="28" cy="25" r="5" fill="#D2B48C" />
+          <circle cx="72" cy="25" r="8" fill="#8B4513" />
+          <circle cx="72" cy="25" r="5" fill="#D2B48C" />
+          <!-- 腕 -->
+          <ellipse cx="25" cy="55" rx="8" ry="15" fill="#8B4513" transform="rotate(-20 25 55)" />
+          <ellipse cx="75" cy="55" rx="8" ry="15" fill="#8B4513" transform="rotate(20 75 55)" />
+        </svg>
+        <h1>おさるのジョージ</h1>
+        <p class="subtitle">🌴 アスレチック大冒険 🌴</p>
+        <button class="start-btn" onclick="startGame()">スタート！</button>
+        <div class="instructions">
+          <p><span class="key-icon">←</span><span class="key-icon">→</span> 移動</p>
+          <p><span class="key-icon">スペース</span> ジャンプ</p>
+          <p>🍌 バナナを集めてゴールを目指そう！</p>
+        </div>
+      </div>
+
+      <!-- ゲームオーバー画面 -->
+      <div id="gameOverScreen">
+        <h2>ゲームオーバー</h2>
+        <p class="final-score">スコア: <span id="finalScore">0</span></p>
+        <button class="start-btn" onclick="restartGame()">もう一度</button>
+      </div>
+
+      <!-- クリア画面 -->
+      <div id="clearScreen">
+        <h2>🎉 クリア！ 🎉</h2>
+        <p class="final-score" style="color: #5d4037">スコア: <span id="clearScore">0</span></p>
+        <button class="start-btn" onclick="restartGame()">もう一度遊ぶ</button>
+      </div>
+
+      <!-- モバイルコントロール -->
+      <div id="mobileControls">
+        <div class="direction-btns">
+          <button class="control-btn" id="leftBtn">←</button>
+          <button class="control-btn" id="rightBtn">→</button>
+        </div>
+        <div class="action-btns">
+          <button class="control-btn" id="jumpBtn">↑</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const canvas = document.getElementById("gameCanvas");
+      const ctx = canvas.getContext("2d");
+
+      // キャンバスサイズ設定
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      resizeCanvas();
+      window.addEventListener("resize", resizeCanvas);
+
+      // ゲーム状態
+      let gameRunning = false;
+      let score = 0;
+      let bananas = 0;
+
+      // ジョージ（プレイヤー）
+      const george = {
+        x: 100,
+        y: 0,
+        width: 50,
+        height: 60,
+        vx: 0,
+        vy: 0,
+        speed: 6,
+        jumpForce: -15,
+        onGround: false,
+        facingRight: true,
+      };
+
+      // 物理
+      const gravity = 0.6;
+      const friction = 0.85;
+
+      // プラットフォーム
+      let platforms = [];
+
+      // アイテム（バナナ）
+      let items = [];
+
+      // ゴール
+      let goal = null;
+
+      // カメラ
+      let cameraY = 0;
+
+      // キー入力
+      const keys = {
+        left: false,
+        right: false,
+        jump: false,
+      };
+
+      // ステージ生成
+      function generateStage() {
+        platforms = [];
+        items = [];
+
+        const stageHeight = canvas.height * 5;
+        const platformCount = 25;
+
+        // 地面
+        platforms.push({
+          x: 0,
+          y: canvas.height - 50,
+          width: canvas.width,
+          height: 50,
+          color: "#228B22",
+          type: "ground",
+        });
+
+        // プラットフォーム生成
+        for (let i = 1; i <= platformCount; i++) {
+          const y = canvas.height - 50 - i * 150;
+          const width = 100 + Math.random() * 150;
+          const x = Math.random() * (canvas.width - width);
+
+          // プラットフォームタイプ
+          const types = ["wood", "rope", "leaf"];
+          const type = types[Math.floor(Math.random() * types.length)];
+
+          platforms.push({
+            x: x,
+            y: y,
+            width: width,
+            height: 20,
+            type: type,
+          });
+
+          // バナナ配置（確率50%）
+          if (Math.random() > 0.5) {
+            items.push({
+              x: x + width / 2,
+              y: y - 40,
+              width: 30,
+              height: 30,
+              type: "banana",
+              collected: false,
+            });
+          }
+        }
+
+        // ゴール
+        const topPlatform = platforms[platforms.length - 1];
+        goal = {
+          x: topPlatform.x + topPlatform.width / 2 - 30,
+          y: topPlatform.y - 80,
+          width: 60,
+          height: 60,
+        };
+      }
+
+      // ジョージを描画
+      function drawGeorge() {
+        const screenY = george.y - cameraY;
+
+        ctx.save();
+
+        if (!george.facingRight) {
+          ctx.translate(george.x + george.width, 0);
+          ctx.scale(-1, 1);
+          ctx.translate(-george.x, 0);
+        }
+
+        const x = george.x;
+        const y = screenY;
+        const w = george.width;
+        const h = george.height;
+
+        // 体
+        ctx.fillStyle = "#8B4513";
+        ctx.beginPath();
+        ctx.ellipse(x + w / 2, y + h * 0.65, w * 0.45, h * 0.35, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // お腹
+        ctx.fillStyle = "#D2691E";
+        ctx.beginPath();
+        ctx.ellipse(x + w / 2, y + h * 0.7, w * 0.32, h * 0.25, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 頭
+        ctx.fillStyle = "#8B4513";
+        ctx.beginPath();
+        ctx.arc(x + w / 2, y + h * 0.3, w * 0.4, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 顔（明るい部分）
+        ctx.fillStyle = "#D2B48C";
+        ctx.beginPath();
+        ctx.ellipse(x + w / 2, y + h * 0.35, w * 0.3, h * 0.2, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 耳
+        ctx.fillStyle = "#8B4513";
+        ctx.beginPath();
+        ctx.arc(x + w * 0.15, y + h * 0.25, w * 0.15, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(x + w * 0.85, y + h * 0.25, w * 0.15, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = "#D2B48C";
+        ctx.beginPath();
+        ctx.arc(x + w * 0.15, y + h * 0.25, w * 0.1, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(x + w * 0.85, y + h * 0.25, w * 0.1, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 目
+        ctx.fillStyle = "white";
+        ctx.beginPath();
+        ctx.arc(x + w * 0.35, y + h * 0.28, w * 0.1, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(x + w * 0.65, y + h * 0.28, w * 0.1, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = "#2C1810";
+        ctx.beginPath();
+        ctx.arc(x + w * 0.37, y + h * 0.29, w * 0.06, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(x + w * 0.67, y + h * 0.29, w * 0.06, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 鼻
+        ctx.fillStyle = "#2C1810";
+        ctx.beginPath();
+        ctx.ellipse(x + w / 2, y + h * 0.4, w * 0.08, h * 0.04, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 口（笑顔）
+        ctx.strokeStyle = "#2C1810";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(x + w / 2, y + h * 0.42, w * 0.12, 0.1 * Math.PI, 0.9 * Math.PI);
+        ctx.stroke();
+
+        // 腕
+        ctx.fillStyle = "#8B4513";
+        ctx.save();
+        ctx.translate(x + w * 0.15, y + h * 0.5);
+        ctx.rotate(-0.3 + Math.sin(Date.now() / 200) * 0.1);
+        ctx.beginPath();
+        ctx.ellipse(0, 0, w * 0.12, h * 0.18, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+
+        ctx.save();
+        ctx.translate(x + w * 0.85, y + h * 0.5);
+        ctx.rotate(0.3 - Math.sin(Date.now() / 200) * 0.1);
+        ctx.beginPath();
+        ctx.ellipse(0, 0, w * 0.12, h * 0.18, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+
+        // 足
+        ctx.fillStyle = "#8B4513";
+        ctx.beginPath();
+        ctx.ellipse(x + w * 0.35, y + h * 0.92, w * 0.12, h * 0.1, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.ellipse(x + w * 0.65, y + h * 0.92, w * 0.12, h * 0.1, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.restore();
+      }
+
+      // プラットフォーム描画
+      function drawPlatforms() {
+        platforms.forEach((p) => {
+          const screenY = p.y - cameraY;
+
+          if (screenY > canvas.height + 50 || screenY < -100) return;
+
+          if (p.type === "ground") {
+            // 草地
+            ctx.fillStyle = "#228B22";
+            ctx.fillRect(p.x, screenY, p.width, p.height);
+
+            // 草
+            ctx.fillStyle = "#32CD32";
+            for (let i = 0; i < p.width; i += 20) {
+              ctx.beginPath();
+              ctx.moveTo(p.x + i, screenY);
+              ctx.lineTo(p.x + i + 5, screenY - 10);
+              ctx.lineTo(p.x + i + 10, screenY);
+              ctx.fill();
+            }
+          } else if (p.type === "wood") {
+            // 木の板
+            ctx.fillStyle = "#8B4513";
+            ctx.fillRect(p.x, screenY, p.width, p.height);
+
+            // 木目
+            ctx.strokeStyle = "#5D3A1A";
+            ctx.lineWidth = 2;
+            for (let i = 0; i < p.width; i += 20) {
+              ctx.beginPath();
+              ctx.moveTo(p.x + i, screenY + 5);
+              ctx.lineTo(p.x + i + 15, screenY + 15);
+              ctx.stroke();
+            }
+          } else if (p.type === "rope") {
+            // ロープブリッジ
+            ctx.strokeStyle = "#8B7355";
+            ctx.lineWidth = 8;
+            ctx.beginPath();
+            ctx.moveTo(p.x, screenY + 10);
+            ctx.quadraticCurveTo(p.x + p.width / 2, screenY + 20, p.x + p.width, screenY + 10);
+            ctx.stroke();
+
+            // ロープの縄目
+            ctx.strokeStyle = "#6B5344";
+            ctx.lineWidth = 2;
+            for (let i = 0; i < p.width; i += 15) {
+              ctx.beginPath();
+              ctx.moveTo(p.x + i, screenY + 5);
+              ctx.lineTo(p.x + i + 10, screenY + 15);
+              ctx.stroke();
+            }
+          } else if (p.type === "leaf") {
+            // 葉っぱの足場
+            ctx.fillStyle = "#228B22";
+            ctx.beginPath();
+            ctx.ellipse(p.x + p.width / 2, screenY + 10, p.width / 2, 15, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // 葉脈
+            ctx.strokeStyle = "#006400";
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(p.x + 10, screenY + 10);
+            ctx.lineTo(p.x + p.width - 10, screenY + 10);
+            ctx.stroke();
+          }
+        });
+      }
+
+      // バナナ描画
+      function drawItems() {
+        items.forEach((item) => {
+          if (item.collected) return;
+
+          const screenY = item.y - cameraY;
+          if (screenY > canvas.height + 50 || screenY < -50) return;
+
+          const bobOffset = Math.sin(Date.now() / 300 + item.x) * 5;
+
+          // バナナ
+          ctx.fillStyle = "#FFD700";
+          ctx.beginPath();
+          ctx.save();
+          ctx.translate(item.x, screenY + bobOffset);
+          ctx.rotate(-0.3);
+          ctx.beginPath();
+          ctx.moveTo(0, -10);
+          ctx.quadraticCurveTo(15, 0, 0, 10);
+          ctx.quadraticCurveTo(-5, 0, 0, -10);
+          ctx.fill();
+          ctx.restore();
+
+          // キラキラ
+          ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+          ctx.beginPath();
+          ctx.arc(item.x + 5, screenY - 5 + bobOffset, 3, 0, Math.PI * 2);
+          ctx.fill();
+        });
+      }
+
+      // ゴール描画
+      function drawGoal() {
+        if (!goal) return;
+
+        const screenY = goal.y - cameraY;
+        if (screenY > canvas.height + 100 || screenY < -100) return;
+
+        // 旗竿
+        ctx.fillStyle = "#8B4513";
+        ctx.fillRect(goal.x + goal.width / 2 - 3, screenY, 6, goal.height + 30);
+
+        // 旗
+        ctx.fillStyle = "#FFD700";
+        ctx.beginPath();
+        ctx.moveTo(goal.x + goal.width / 2 + 3, screenY);
+        ctx.lineTo(goal.x + goal.width / 2 + 50, screenY + 20);
+        ctx.lineTo(goal.x + goal.width / 2 + 3, screenY + 40);
+        ctx.fill();
+
+        // 星
+        ctx.fillStyle = "#FF6B6B";
+        drawStar(goal.x + goal.width / 2 + 25, screenY + 20, 5, 12, 6);
+
+        // ゴールの光
+        ctx.fillStyle = `rgba(255, 215, 0, ${0.3 + Math.sin(Date.now() / 200) * 0.2})`;
+        ctx.beginPath();
+        ctx.arc(goal.x + goal.width / 2, screenY + 20, 40, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // 星を描画
+      function drawStar(cx, cy, spikes, outerRadius, innerRadius) {
+        let rot = (Math.PI / 2) * 3;
+        let step = Math.PI / spikes;
+
+        ctx.beginPath();
+        ctx.moveTo(cx, cy - outerRadius);
+
+        for (let i = 0; i < spikes; i++) {
+          ctx.lineTo(cx + Math.cos(rot) * outerRadius, cy + Math.sin(rot) * outerRadius);
+          rot += step;
+          ctx.lineTo(cx + Math.cos(rot) * innerRadius, cy + Math.sin(rot) * innerRadius);
+          rot += step;
+        }
+        ctx.lineTo(cx, cy - outerRadius);
+        ctx.closePath();
+        ctx.fill();
+      }
+
+      // 当たり判定
+      function checkCollision(rect1, rect2) {
+        return (
+          rect1.x < rect2.x + rect2.width &&
+          rect1.x + rect1.width > rect2.x &&
+          rect1.y < rect2.y + rect2.height &&
+          rect1.y + rect1.height > rect2.y
+        );
+      }
+
+      // ゲーム更新
+      function update() {
+        if (!gameRunning) return;
+
+        // 入力処理
+        if (keys.left) {
+          george.vx = -george.speed;
+          george.facingRight = false;
+        } else if (keys.right) {
+          george.vx = george.speed;
+          george.facingRight = true;
+        } else {
+          george.vx *= friction;
+        }
+
+        if (keys.jump && george.onGround) {
+          george.vy = george.jumpForce;
+          george.onGround = false;
+        }
+
+        // 重力
+        george.vy += gravity;
+
+        // 移動
+        george.x += george.vx;
+        george.y += george.vy;
+
+        // 画面端の処理
+        if (george.x < 0) george.x = 0;
+        if (george.x + george.width > canvas.width) george.x = canvas.width - george.width;
+
+        // 落下死
+        if (george.y > cameraY + canvas.height + 100) {
+          gameOver();
+          return;
+        }
+
+        // プラットフォーム当たり判定
+        george.onGround = false;
+        platforms.forEach((p) => {
+          if (
+            george.vy > 0 &&
+            george.x + george.width > p.x &&
+            george.x < p.x + p.width &&
+            george.y + george.height > p.y &&
+            george.y + george.height < p.y + p.height + george.vy + 5
+          ) {
+            george.y = p.y - george.height;
+            george.vy = 0;
+            george.onGround = true;
+          }
+        });
+
+        // アイテム収集
+        items.forEach((item) => {
+          if (!item.collected) {
+            const georgeRect = {
+              x: george.x,
+              y: george.y,
+              width: george.width,
+              height: george.height,
+            };
+            const itemRect = {
+              x: item.x - item.width / 2,
+              y: item.y - item.height / 2,
+              width: item.width,
+              height: item.height,
+            };
+
+            if (checkCollision(georgeRect, itemRect)) {
+              item.collected = true;
+              bananas++;
+              score += 100;
+              updateUI();
+            }
+          }
+        });
+
+        // ゴール判定
+        if (goal) {
+          const georgeRect = {
+            x: george.x,
+            y: george.y,
+            width: george.width,
+            height: george.height,
+          };
+
+          if (checkCollision(georgeRect, goal)) {
+            gameClear();
+            return;
+          }
+        }
+
+        // カメラ追従
+        const targetCameraY = george.y - canvas.height / 2;
+        cameraY += (targetCameraY - cameraY) * 0.1;
+
+        // カメラ制限
+        if (cameraY > canvas.height - 50 - canvas.height) {
+          cameraY = canvas.height - 50 - canvas.height;
+        }
+      }
+
+      // 描画
+      function draw() {
+        // 背景クリア
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // 背景グラデーション
+        const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+        gradient.addColorStop(0, "#87CEEB");
+        gradient.addColorStop(0.5, "#98D8C8");
+        gradient.addColorStop(1, "#90EE90");
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        drawPlatforms();
+        drawItems();
+        drawGoal();
+        drawGeorge();
+      }
+
+      // ゲームループ
+      function gameLoop() {
+        update();
+        draw();
+        requestAnimationFrame(gameLoop);
+      }
+
+      // UI更新
+      function updateUI() {
+        document.getElementById("bananaCount").textContent = bananas;
+        document.getElementById("score").textContent = score;
+      }
+
+      // ゲーム開始
+      function startGame() {
+        document.getElementById("titleScreen").style.display = "none";
+        document.getElementById("ui").style.display = "flex";
+
+        george.x = 100;
+        george.y = canvas.height - 150;
+        george.vx = 0;
+        george.vy = 0;
+        cameraY = 0;
+        score = 0;
+        bananas = 0;
+
+        generateStage();
+        updateUI();
+
+        gameRunning = true;
+      }
+
+      // ゲームオーバー
+      function gameOver() {
+        gameRunning = false;
+        document.getElementById("finalScore").textContent = score;
+        document.getElementById("gameOverScreen").classList.add("show");
+      }
+
+      // ゲームクリア
+      function gameClear() {
+        gameRunning = false;
+        score += bananas * 50; // ボーナス
+        document.getElementById("clearScore").textContent = score;
+        document.getElementById("clearScreen").classList.add("show");
+        createConfetti();
+      }
+
+      // 紙吹雪
+      function createConfetti() {
+        const clearScreen = document.getElementById("clearScreen");
+        const colors = ["#FF6B6B", "#FFD700", "#4CAF50", "#2196F3", "#FF9800"];
+
+        for (let i = 0; i < 50; i++) {
+          const confetti = document.createElement("div");
+          confetti.className = "confetti";
+          confetti.style.left = Math.random() * 100 + "%";
+          confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+          confetti.style.animationDelay = Math.random() * 3 + "s";
+          confetti.style.animationDuration = 2 + Math.random() * 2 + "s";
+          clearScreen.appendChild(confetti);
+        }
+      }
+
+      // リスタート
+      function restartGame() {
+        document.getElementById("gameOverScreen").classList.remove("show");
+        document.getElementById("clearScreen").classList.remove("show");
+
+        // 紙吹雪を削除
+        document.querySelectorAll(".confetti").forEach((c) => c.remove());
+
+        startGame();
+      }
+
+      // キーボード入力
+      document.addEventListener("keydown", (e) => {
+        if (e.code === "ArrowLeft" || e.code === "KeyA") keys.left = true;
+        if (e.code === "ArrowRight" || e.code === "KeyD") keys.right = true;
+        if (e.code === "Space" || e.code === "ArrowUp" || e.code === "KeyW") {
+          keys.jump = true;
+          e.preventDefault();
+        }
+      });
+
+      document.addEventListener("keyup", (e) => {
+        if (e.code === "ArrowLeft" || e.code === "KeyA") keys.left = false;
+        if (e.code === "ArrowRight" || e.code === "KeyD") keys.right = false;
+        if (e.code === "Space" || e.code === "ArrowUp" || e.code === "KeyW") keys.jump = false;
+      });
+
+      // モバイルコントロール
+      const leftBtn = document.getElementById("leftBtn");
+      const rightBtn = document.getElementById("rightBtn");
+      const jumpBtn = document.getElementById("jumpBtn");
+
+      leftBtn.addEventListener("touchstart", (e) => {
+        e.preventDefault();
+        keys.left = true;
+      });
+      leftBtn.addEventListener("touchend", (e) => {
+        e.preventDefault();
+        keys.left = false;
+      });
+      rightBtn.addEventListener("touchstart", (e) => {
+        e.preventDefault();
+        keys.right = true;
+      });
+      rightBtn.addEventListener("touchend", (e) => {
+        e.preventDefault();
+        keys.right = false;
+      });
+      jumpBtn.addEventListener("touchstart", (e) => {
+        e.preventDefault();
+        keys.jump = true;
+      });
+      jumpBtn.addEventListener("touchend", (e) => {
+        e.preventDefault();
+        keys.jump = false;
+      });
+
+      // ゲームループ開始
+      gameLoop();
+    </script>
+  </body>
+</html>

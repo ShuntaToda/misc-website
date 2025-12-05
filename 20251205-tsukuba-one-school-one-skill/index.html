@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>つくば市立高山中学校訪問 - AI Web制作イベント</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        background: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 40px 20px;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 50px;
+        border-bottom: 2px solid #333;
+        padding-bottom: 30px;
+      }
+
+      h1 {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+        font-weight: 700;
+      }
+
+      .subtitle {
+        font-size: 1.1em;
+        color: #666;
+      }
+
+      .event-info {
+        background: white;
+        padding: 30px;
+        margin-bottom: 50px;
+        border: 1px solid #ddd;
+      }
+
+      .event-info h2 {
+        font-size: 1.5em;
+        margin-bottom: 20px;
+        font-weight: 600;
+      }
+
+      .event-info p {
+        margin-bottom: 12px;
+        color: #555;
+      }
+
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-bottom: 50px;
+      }
+
+      .project-card {
+        background: white;
+        border: 1px solid #ddd;
+        padding: 0;
+        overflow: hidden;
+      }
+
+      .project-header {
+        background: #f9f9f9;
+        padding: 20px;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .project-header h3 {
+        font-size: 1.3em;
+        font-weight: 600;
+      }
+
+      .project-content {
+        padding: 25px;
+      }
+
+      .project-type {
+        display: inline-block;
+        background: #f0f0f0;
+        color: #333;
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-size: 0.85em;
+        margin-bottom: 12px;
+        font-weight: 500;
+      }
+
+      .project-description {
+        color: #555;
+        margin-bottom: 15px;
+        font-size: 0.95em;
+      }
+
+      .feature-list {
+        list-style: none;
+        margin: 15px 0;
+        font-size: 0.9em;
+      }
+
+      .feature-list li {
+        color: #666;
+        padding: 6px 0;
+        padding-left: 20px;
+        position: relative;
+      }
+
+      .feature-list li:before {
+        content: "•";
+        position: absolute;
+        left: 5px;
+        font-weight: bold;
+      }
+
+      .project-link {
+        display: inline-block;
+        background: #333;
+        color: white;
+        padding: 10px 18px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 0.9em;
+        font-weight: 500;
+        transition: background 0.2s;
+        border: 1px solid #333;
+      }
+
+      .project-link:hover {
+        background: #555;
+      }
+
+      .project-links {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+        flex-wrap: wrap;
+      }
+
+      .conversation-link {
+        display: inline-block;
+        background: #f0f0f0;
+        border: 1px solid #ccc;
+        color: #333;
+        padding: 10px 18px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 0.9em;
+        font-weight: 500;
+        transition: all 0.2s;
+        cursor: pointer;
+      }
+
+      .conversation-link:hover {
+        background: #e0e0e0;
+        border-color: #999;
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        overflow: auto;
+      }
+
+      .modal.active {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .modal-content {
+        background-color: white;
+        padding: 0;
+        border-radius: 8px;
+        width: 90%;
+        max-width: 800px;
+        max-height: 80vh;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .modal-header {
+        background: #f9f9f9;
+        padding: 20px;
+        border-bottom: 1px solid #ddd;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .modal-header h2,
+      .modal-header .modal-title {
+        font-size: 1.3em;
+        margin: 0;
+        font-weight: 600;
+      }
+
+      .modal-close {
+        background: none;
+        border: none;
+        font-size: 1.5em;
+        cursor: pointer;
+        color: #333;
+        padding: 0;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .modal-close:hover {
+        color: #666;
+      }
+
+      .modal-body {
+        padding: 20px;
+        overflow-y: auto;
+        flex: 1;
+      }
+
+      .modal-body p {
+        margin-bottom: 12px;
+        line-height: 1.6;
+        color: #555;
+      }
+
+      .modal-body strong {
+        color: #333;
+      }
+
+      .modal-body ul {
+        list-style: none;
+        margin: 10px 0 12px 0;
+        padding: 0;
+      }
+
+      .modal-body li {
+        color: #555;
+        padding: 6px 0;
+        padding-left: 20px;
+        position: relative;
+      }
+
+      .modal-body li:before {
+        content: "•";
+        position: absolute;
+        left: 5px;
+        font-weight: bold;
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin: 40px 0;
+        background: white;
+        padding: 30px;
+        border: 1px solid #ddd;
+      }
+
+      .stat-item {
+        text-align: center;
+      }
+
+      .stat-number {
+        font-size: 2em;
+        color: #333;
+        font-weight: 700;
+      }
+
+      .stat-label {
+        color: #666;
+        margin-top: 8px;
+        font-size: 0.95em;
+      }
+
+      .section-title {
+        font-size: 2em;
+        font-weight: 700;
+        margin-bottom: 10px;
+        color: #333;
+      }
+
+      .section-intro {
+        font-size: 1.1em;
+        color: #666;
+        margin-bottom: 40px;
+        line-height: 1.8;
+      }
+
+      footer {
+        text-align: center;
+        color: #666;
+        margin-top: 50px;
+        padding-top: 30px;
+        border-top: 2px solid #ddd;
+      }
+
+      footer p {
+        margin: 8px 0;
+        font-size: 0.9em;
+      }
+
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 1.8em;
+        }
+
+        .projects-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .event-info {
+          padding: 20px;
+        }
+
+        .slide-section {
+          margin-bottom: 30px;
+        }
+
+        .slide-header {
+          margin-bottom: 20px;
+        }
+
+        .slide-container {
+          border-radius: 8px;
+          overflow: hidden;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+          background: white;
+          padding: 2px;
+        }
+      }
+
+      .slide-section {
+        background: white;
+        padding: 35px;
+        margin-bottom: 50px;
+        border-radius: 8px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        border-left: 4px solid #333;
+      }
+
+      .slide-header {
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #f0f0f0;
+      }
+
+      .slide-header h2 {
+        font-size: 1.6em;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #333;
+      }
+
+      .slide-subtitle {
+        color: #666;
+        font-size: 0.95em;
+        margin: 0;
+        font-weight: 400;
+      }
+
+      .slide-container {
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        background: white;
+        border: 1px solid #e0e0e0;
+        transition: box-shadow 0.3s ease;
+      }
+
+      .slide-container:hover {
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>AI Web制作イベント</h1>
+        <p class="subtitle">つくば市立高山中学校訪問での成果</p>
+      </header>
+
+      <div class="event-info">
+        <h2>イベント概要</h2>
+        <p><strong>日時：</strong>2025年12月5日（金）</p>
+        <p><strong>場所：</strong>つくば市立高山中学校</p>
+        <p>
+          このイベントでは、生徒たちがAI（<a href="https://claude.ai" target="_blank">Claude</a
+          >）を使用して、短時間でプロフェッショナルなWebサイトとゲームを制作しました。フロントエンドデザインスキルの向上と、AIツールの活用方法を学びました。
+        </p>
+      </div>
+
+      <div class="slide-section">
+        <div class="slide-header">
+          <h2>📊 ウェブサイト・ウェブアプリ解説スライド</h2>
+          <p class="slide-subtitle">イベント当日の解説資料と作品制作プロセス</p>
+        </div>
+        <div class="slide-container">
+          <object data="./slide.pdf" width="100%" height="600"></object>
+        </div>
+      </div>
+      <div>
+        <h2 class="section-title">作品紹介</h2>
+        <p class="section-intro">AIとの対話を通じて、生徒たちが制作したWebサイトとゲーム</p>
+      </div>
+
+      <div class="projects-grid">
+        <div class="project-card">
+          <div class="project-header">
+            <h3>スペースインベーダー</h3>
+          </div>
+          <div class="project-content">
+            <span class="project-type">ゲーム</span>
+            <p class="project-description">
+              レトロアーケード風のスペースインベーダーゲーム。ネオンデザインとCRTエフェクトで懐かしさと高級感を融合。
+            </p>
+            <ul class="feature-list">
+              <li>3種類のインベーダー（スコア異なる）</li>
+              <li>ボーナスUFO出現</li>
+              <li>4つの防御シールド</li>
+              <li>レベルアップ時に難易度上昇</li>
+              <li>モバイル対応</li>
+            </ul>
+            <div class="project-links">
+              <a href="./invader/index.html" class="project-link">プレイする</a>
+              <button class="conversation-link" data-file="./invader/conversation.md">AIとの会話</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-header">
+            <h3>LABUBU公式風サイト</h3>
+          </div>
+          <div class="project-content">
+            <span class="project-type">Webサイト</span>
+            <p class="project-description">
+              POP MARTの人気キャラクター「LABUBU」の公式風Webサイト。CSSでキャラクターを完全再現。
+            </p>
+            <ul class="feature-list">
+              <li>CSSで描いたLABUBUキャラクター</li>
+              <li>ポップでキュートなデザイン</li>
+              <li>モンスターファミリー紹介</li>
+              <li>パララックス効果</li>
+              <li>レスポンシブ対応</li>
+            </ul>
+            <div class="project-links">
+              <a href="./labubu/index.html" class="project-link">見る</a>
+              <button class="conversation-link" data-file="./labubu/conversation.md">AIとの会話</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-header">
+            <h3>おさるのジョージゲーム</h3>
+          </div>
+          <div class="project-content">
+            <span class="project-type">ゲーム</span>
+            <p class="project-description">おさるのジョージがアスレチックを登り進むゲーム。バナナを集めてスコアアップ。</p>
+            <ul class="feature-list">
+              <li>多様な足場（木の板、ロープ、葉っぱ）</li>
+              <li>バナナ収集でスコア獲得</li>
+              <li>ゴール旗を目指す</li>
+              <li>スマホタッチ対応</li>
+              <li>かわいらしいデザイン</li>
+            </ul>
+            <div class="project-links">
+              <a href="./monkey/index.html" class="project-link">遊ぶ</a>
+              <button class="conversation-link" data-file="./monkey/conversation.md">AIとの会話</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-header">
+            <h3>高山中学校Webサイト</h3>
+          </div>
+          <div class="project-content">
+            <span class="project-type">学校サイト</span>
+            <p class="project-description">つくば市立高山中学校のWebサイト。学校情報と最新ニュースをアピール。</p>
+            <ul class="feature-list">
+              <li>ナビゲーションバー</li>
+              <li>学校ニュースセクション</li>
+              <li>カレンダーウィジェット</li>
+              <li>全画面360度回転アニメーション</li>
+              <li>レスポンシブデザイン</li>
+            </ul>
+            <div class="project-links">
+              <a href="./school/index.html" class="project-link">見る</a>
+              <button class="conversation-link" data-file="./school/conversation.md">AIとの会話</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-header">
+            <h3>サッカー勝利の極意</h3>
+          </div>
+          <div class="project-content">
+            <span class="project-type">情報サイト</span>
+            <p class="project-description">
+              サッカー勝利の戦略を紹介するWebサイト。ダイナミックなスライディングアニメーション満載。
+            </p>
+            <ul class="feature-list">
+              <li>6つの戦略カード</li>
+              <li>フォーメーション図</li>
+              <li>スライディングアニメーション</li>
+              <li>実践テクニック解説</li>
+              <li>スクロール連動アニメーション</li>
+            </ul>
+            <div class="project-links">
+              <a href="./soccer/index.html" class="project-link">見る</a>
+              <button class="conversation-link" data-file="./soccer/conversation.md">AIとの会話</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <p>One School One Skill - 2025/12/05</p>
+        <div>
+          <a
+            href="https://github.com/ShuntaToda/misc-website/https://shuntatoda.github.io/misc-website/20251205-tsukuba-one-school-one-skill"
+            >GitHub</a
+          >
+        </div>
+      </footer>
+    </div>
+
+    <div id="conversationModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title">AIとの会話</div>
+          <button class="modal-close" onclick="closeModal()">&times;</button>
+        </div>
+        <div class="modal-body" id="modalBody"></div>
+      </div>
+    </div>
+
+    <script>
+      const conversations = {
+        invader: `
+          <p><strong>ユーザー：</strong>インベーダーゲームをウェブゲームとして作って</p>
+          <p><strong>AI：</strong>フロントエンドデザインスキルを確認して、高品質なゲームUIを作成するためのベストプラクティスを学ぶ。インベーダーゲームを作成します！レトロなアーケードスタイルで、ネオンカラーとCRT風のエフェクトを取り入れた印象的なデザインにします。</p>
+          <p><strong>制作完了：</strong>レトロアーケードスタイルのスペースインベーダーゲームを作成しました！</p>
+          <p><strong>操作方法：</strong></p>
+          <ul>
+            <li>← → または A D キー：自機の移動</li>
+            <li>スペースキー：弾を発射</li>
+            <li>P：ポーズ</li>
+          </ul>
+          <p><strong>ゲームの特徴：</strong></p>
+          <ul>
+            <li>レトロアーケード風のネオンデザイン（CRTスキャンライン効果付き）</li>
+            <li>3種類のインベーダー（スコアが異なる）</li>
+            <li>ランダムに出現するUFO（ボーナス得点）</li>
+            <li>4つの防御シールド（徐々に破壊される）</li>
+            <li>レベルアップ時に敵のスピードが上昇</li>
+            <li>モバイル対応のタッチコントロール</li>
+          </ul>
+        `,
+        labubu: `
+          <p><strong>ユーザー：</strong>ラブブ公式Webサイトを作って</p>
+          <p><strong>AI：</strong>「ラブブ」についてもう少し教えていただけますか？どのようなサービス・製品・会社なのか詳しくお聞きしたいです。</p>
+          <p><strong>ユーザー：</strong>https://www.popmart.com/jp/collection/223 このウェブサイトにあるようなキャラクターのことです</p>
+          <p><strong>AI：</strong>ラブブ（LABUBU）についてよく理解できました！POP MARTの大人気キャラクターですね。かわいいけど独特な魅力を持つモンスターのキャラクターです。それでは、ラブブの公式風Webサイトを作成します！ポップでキュートだけど少し不思議な雰囲気を持つ、印象的なデザインにします。</p>
+          <p><strong>制作完了：</strong>ラブブの公式風Webサイトを作成しました！</p>
+          <p><strong>サイトの特徴：</strong></p>
+          <ul>
+            <li>CSSでラブブのキャラクターを再現 - 大きなウサギ耳、9本のギザギザ歯、ふわふわボディをコードだけで表現</li>
+            <li>ポップで遊び心のあるデザイン - パープル×ピンクのグラデーション、浮遊するシェイプ、キラキラのアニメーション</li>
+            <li>THE MONSTERSファミリー紹介 - LABUBU、MOKOKO、ZIMOMO、TYCOCOの仲間たち</li>
+            <li>インタラクティブな要素 - ホバーエフェクト、スムーススクロール、パララックス効果</li>
+            <li>レスポンシブ対応 - スマホ・タブレットでも綺麗に表示</li>
+          </ul>
+        `,
+        monkey: `
+          <p><strong>ユーザー：</strong>おさるのジョージ　アスレチックのゲームをHTMLで作って</p>
+          <p><strong>AI：</strong>フロントエンドデザインのスキルを確認して、高品質なゲームを作成するため、おさるのジョージをテーマにした楽しいアスレチックゲームを作りますね！黄色い帽子のおじさんと一緒に、ジョージがジャングルジムを登っていくゲームにしましょう。</p>
+          <p><strong>制作完了：</strong>おさるのジョージのアスレチックゲームを作りました！</p>
+          <p><strong>ゲーム内容：</strong></p>
+          <ul>
+            <li>ジョージを操作して上へ上へとアスレチックを登っていきます</li>
+            <li>バナナを集めてスコアアップ</li>
+            <li>頂上のゴール旗を目指そう！</li>
+            <li>木の板、ロープ、葉っぱなど様々な足場があります</li>
+          </ul>
+          <p><strong>操作方法：</strong></p>
+          <ul>
+            <li>←→ または A/D：左右移動</li>
+            <li>スペース または ↑：ジャンプ</li>
+            <li>スマホではタッチボタンで操作できます</li>
+          </ul>
+        `,
+        school: `
+          <p><strong>ユーザー：</strong>このウェブサイトをHTMLで作って（画像を提示）</p>
+          <p><strong>AI：</strong>このウェブサイトのHTMLを作成します。まず、画像の内容をしっかり確認してから、高品質なHTMLファイルを作成します。</p>
+          <p><strong>制作完了：</strong>高山学園つくば市立高山中学校のウェブサイトをHTMLで作成しました！</p>
+          <p><strong>HTMLファイルの特徴：</strong></p>
+          <ul>
+            <li>レスポンシブデザイン: パソコン・タブレット・スマートフォンに対応</li>
+            <li>ナビゲーションバー: 丸みのある美しいデザイン</li>
+            <li>学校ニュースセクション: 記事画像とテキストのレイアウト</li>
+            <li>サイドバー: その他のメニューリンク</li>
+            <li>カレンダーウィジェット: 12月のカレンダー表示</li>
+            <li>色彩設計: 画像から抽出した青緑色とグリーンを使用</li>
+          </ul>
+          <p><strong>ユーザー：</strong>学校ニュースの欄を回転させて</p>
+          <p><strong>AI：</strong>完了しました！学校ニュースの欄が3D回転するアニメーション効果を追加しました。8秒で360度Y軸回転し、ループ再生されます。</p>
+          <p><strong>ユーザー：</strong>全体を爆発させて、この画像の感じ（画像を提示）</p>
+          <p><strong>AI：</strong>了解しました。爆発エフェクトを追加します。完了しました！爆発エフェクトのアニメーションを追加しました。学校ニュースのコンテンツボックスが爆発の画像のような演出で、繰り返し破裂するようになりました。</p>
+          <p><strong>ユーザー：</strong>画面全体回転させる</p>
+          <p><strong>AI：</strong>完了しました！画面全体が360度回転するようになりました。ページ全体が3秒で1回転するアニメーションが無限ループしています。</p>
+        `,
+        soccer: `
+          <p><strong>ユーザー：</strong>サッカーの勝ち方攻略ウェブサイト、スライディングアニメーションをつけて</p>
+          <p><strong>AI：</strong>サッカーの勝ち方攻略ウェブサイトを、ダイナミックなスライディングアニメーションで作成します！</p>
+          <p><strong>制作完了：</strong>サッカー勝利の攻略ウェブサイトを作成しました！</p>
+          <p><strong>主なスライディングアニメーション：</strong></p>
+          <ul>
+            <li>ヘッダータイトルが左からスライドイン</li>
+            <li>サブタイトルが右からスライドイン</li>
+            <li>サッカーボールがバウンスしながら登場＆回転</li>
+            <li>6つの戦略カードが左から順番にスライドイン</li>
+            <li>フォーメーション図が下からスライドアップ</li>
+            <li>選手のドットが順番にポップイン</li>
+            <li>実践テクニックが交互に左右からスライドイン</li>
+            <li>スクロールに連動したアニメーション</li>
+          </ul>
+        `,
+      };
+
+      const conversationLinks = document.querySelectorAll(".conversation-link");
+
+      conversationLinks.forEach((link) => {
+        link.addEventListener("click", (e) => {
+          e.preventDefault();
+          const file = link.getAttribute("data-file");
+          const key = file.split("/")[1];
+          openModal(key);
+        });
+      });
+
+      function openModal(key) {
+        const modal = document.getElementById("conversationModal");
+        const modalBody = document.getElementById("modalBody");
+        modalBody.innerHTML = conversations[key] || "<p>会話が見つかりません。</p>";
+        modal.classList.add("active");
+      }
+
+      function closeModal() {
+        const modal = document.getElementById("conversationModal");
+        modal.classList.remove("active");
+      }
+
+      // モーダルの背景クリックで閉じる
+      window.addEventListener("click", (event) => {
+        const modal = document.getElementById("conversationModal");
+        if (event.target === modal) {
+          closeModal();
+        }
+      });
+
+      // Escキーで閉じる
+      window.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          closeModal();
+        }
+      });
+    </script>
+  </body>
+</html>

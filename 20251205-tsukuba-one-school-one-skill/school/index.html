@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>高山学園つくば市立高山中学校 - Takayama Junior High School</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+        animation: fullSpin 3s linear infinite;
+        transform-origin: center center;
+      }
+
+      @keyframes fullSpin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Header */
+      .header {
+        background-color: #fff;
+        padding: 30px 20px;
+        text-align: center;
+        border-bottom: 3px solid #00b8d4;
+      }
+
+      .header h1 {
+        font-size: 28px;
+        color: #333;
+        font-weight: 600;
+        margin-bottom: 5px;
+      }
+
+      .header .subtitle {
+        font-size: 14px;
+        color: #666;
+        letter-spacing: 2px;
+      }
+
+      /* Navigation */
+      .nav-container {
+        background: linear-gradient(135deg, #b3e5fc 0%, #80deea 100%);
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+      }
+
+      .nav-wrapper {
+        background-color: #fff;
+        border-radius: 50px;
+        display: flex;
+        max-width: 900px;
+        width: 100%;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .nav-home {
+        background-color: #00b8d4;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 50px 0 0 50px;
+        font-weight: 600;
+        cursor: pointer;
+        min-width: 80px;
+        text-align: center;
+      }
+
+      .nav-item {
+        flex: 1;
+        padding: 15px 20px;
+        text-align: center;
+        border-right: 1px solid #e0e0e0;
+        cursor: pointer;
+        font-weight: 500;
+        color: #00b8d4;
+        transition: background-color 0.3s;
+      }
+
+      .nav-item:hover {
+        background-color: #f0f8fb;
+      }
+
+      .nav-item:last-child {
+        border-right: none;
+      }
+
+      /* Breadcrumb */
+      .breadcrumb {
+        background-color: #fff;
+        padding: 15px 30px;
+        font-size: 14px;
+        color: #666;
+      }
+
+      .breadcrumb strong {
+        color: #333;
+        font-weight: 600;
+      }
+
+      /* Main Container */
+      .container {
+        display: grid;
+        grid-template-columns: 1fr 270px;
+        gap: 20px;
+        max-width: 1200px;
+        margin: 20px auto;
+        padding: 0 20px;
+      }
+
+      /* Main Content */
+      .main-content {
+        background-color: #fff;
+        border: 2px solid #00b8d4;
+        border-radius: 15px;
+        padding: 30px;
+      }
+
+      .section-title {
+        font-size: 24px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-left: 4px solid #00b8d4;
+        padding-left: 15px;
+        background-color: #e0f7fa;
+        padding: 15px;
+        border-radius: 5px;
+      }
+
+      /* News Articles */
+      .news-article {
+        margin-bottom: 30px;
+        padding-bottom: 30px;
+        border-bottom: 1px solid #e0e0e0;
+      }
+
+      .news-article:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+
+      .article-content {
+        display: flex;
+        gap: 20px;
+      }
+
+      .article-image {
+        flex-shrink: 0;
+        width: 150px;
+        height: 120px;
+        background-color: #ddd;
+        border-radius: 5px;
+        overflow: hidden;
+      }
+
+      .article-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .article-text {
+        flex: 1;
+      }
+
+      .article-headline {
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 10px;
+      }
+
+      .article-description {
+        font-size: 14px;
+        color: #666;
+        line-height: 1.7;
+        margin-bottom: 15px;
+      }
+
+      .article-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 15px;
+        border-top: 1px solid #f0f0f0;
+      }
+
+      .category-tag {
+        background-color: #c8e6c9;
+        color: #2e7d32;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .update-date {
+        font-size: 12px;
+        color: #999;
+      }
+
+      /* Sidebar */
+      .sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .sidebar-box {
+        background-color: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .sidebar-header {
+        background: linear-gradient(90deg, #26a69a 0%, #26a69a 30%, #fff 30%, #fff 100%);
+        padding: 12px 15px;
+        font-weight: 600;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .sidebar-header .icon {
+        background-color: rgba(255, 255, 255, 0.3);
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 12px;
+      }
+
+      .sidebar-header .menu-label {
+        color: #26a69a;
+        font-size: 12px;
+        margin-left: auto;
+      }
+
+      .sidebar-list {
+        list-style: none;
+      }
+
+      .sidebar-list li {
+        border-bottom: 1px solid #f0f0f0;
+        padding: 0;
+      }
+
+      .sidebar-list li:last-child {
+        border-bottom: none;
+      }
+
+      .sidebar-list a {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 15px;
+        color: #00796b;
+        text-decoration: none;
+        font-size: 13px;
+        transition: background-color 0.3s;
+      }
+
+      .sidebar-list a:hover {
+        background-color: #f0f8f7;
+      }
+
+      .sidebar-list a::after {
+        content: "›";
+        font-size: 18px;
+        color: #00796b;
+      }
+
+      /* Calendar */
+      .calendar-box {
+        background-color: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .calendar-header {
+        background: linear-gradient(90deg, #4db8a8 0%, #4db8a8 20%, #fff 20%, #fff 100%);
+        padding: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .calendar-nav {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .calendar-nav button {
+        background-color: #fff;
+        border: none;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 18px;
+        background-color: #90ccc8;
+      }
+
+      .calendar-month {
+        color: #2d6a5f;
+        font-size: 24px;
+        font-weight: bold;
+        margin: 0 10px;
+      }
+
+      .calendar-grid {
+        padding: 15px;
+      }
+
+      .day-header {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+
+      .day-header-cell {
+        text-align: center;
+        font-size: 12px;
+        font-weight: 600;
+        color: #666;
+        padding: 8px 0;
+      }
+
+      .day-header-cell.sunday {
+        color: #d32f2f;
+      }
+
+      .day-header-cell.saturday {
+        color: #1976d2;
+      }
+
+      .calendar-days {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 8px;
+      }
+
+      .day-cell {
+        aspect-ratio: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+        font-size: 13px;
+        font-weight: 500;
+        color: #333;
+        background-color: #f9f9f9;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .day-cell:hover {
+        background-color: #e8f5e9;
+      }
+
+      .day-cell.highlight {
+        background-color: #81c784;
+        color: #fff;
+        font-weight: 600;
+      }
+
+      .day-cell.other-month {
+        color: #ccc;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .container {
+          grid-template-columns: 1fr;
+        }
+
+        .article-content {
+          flex-direction: column;
+        }
+
+        .article-image {
+          width: 100%;
+          height: 200px;
+        }
+
+        .header h1 {
+          font-size: 22px;
+        }
+
+        .nav-wrapper {
+          flex-direction: column;
+        }
+
+        .nav-item,
+        .nav-home {
+          border-radius: 0;
+          border-right: none;
+          border-bottom: 1px solid #e0e0e0;
+        }
+
+        .nav-home {
+          border-radius: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <div class="header">
+      <h1>高山学園つくば市立高山中学校</h1>
+      <p class="subtitle">Takayama Junior High School</p>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-container">
+      <div class="nav-wrapper">
+        <div class="nav-home">ホーム</div>
+        <div class="nav-item">学校紹介</div>
+        <div class="nav-item">おたより</div>
+        <div class="nav-item">学校ニュース</div>
+      </div>
+    </div>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb"><strong>ホーム</strong> / 学校ニュース</div>
+
+    <!-- Main Container -->
+    <div class="container">
+      <!-- Main Content -->
+      <main class="main-content">
+        <h2 class="section-title">学校ニュース</h2>
+
+        <!-- Article 1 -->
+        <div class="news-article">
+          <div class="article-content">
+            <div class="article-image">
+              <img
+                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='120'%3E%3Crect fill='%23ddd' width='150' height='120'/%3E%3C/svg%3E"
+                alt="体育館での集会"
+              />
+            </div>
+            <div class="article-text">
+              <div class="article-headline">明日（12/4）の入権集会に向けてリハーサルが行われました。</div>
+              <div class="article-description">
+                本日は、明日(12/4)の入権集会に向けて様々な準備が行われました。午間中は会場の椅子を8年生がされに並べてくれました。写真は放課後に行われたリハーサルの様子です。各学年の代表生徒も司会進行を務める生徒会本部役員も、真剣に取り組んでいました。明日の入権集会本番が、様々な人権課題について高山中のみんなで考える時間になることを期待しています。
+              </div>
+              <div class="article-footer">
+                <span class="category-tag">カテゴリ</span>
+                <span class="update-date">更新日　2025年12月3日</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Article 2 -->
+        <div class="news-article">
+          <div class="article-content">
+            <div class="article-image">
+              <img
+                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='120'%3E%3Crect fill='%23ddd' width='150' height='120'/%3E%3C/svg%3E"
+                alt="卒業文集作成"
+              />
+            </div>
+            <div class="article-text">
+              <div class="article-headline">卒業文集を作成しています。</div>
+              <div class="article-description">
+                9年生は現在、学活の授業で卒業文集の作成に取り組んでいます。三年間の学校生活を振り返り、「中学校での思い出」「お世話になった人への思謝」「将来の自分へのメッセージ」など、各自が思いを込めてテーマを選び、文章を子葉に折っていきます。友人との日々や行事で経験した達成感、悔しさや成長の記録など、自分と向き合いながら書き進める姿が見られます。完成した文集は、卒業を迎える生徒たちにとって、三年間の歩みを確かめる大切な一冊となるばずです。
+              </div>
+              <div class="article-footer">
+                <span class="category-tag">カテゴリ</span>
+                <span class="update-date">更新日　2025年12月3日</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <!-- Menu Box -->
+        <div class="sidebar-box">
+          <div class="sidebar-header">
+            <div class="icon">目</div>
+            <span>その他のメニュー</span>
+            <span class="menu-label">MENU</span>
+          </div>
+          <ul class="sidebar-list">
+            <li>
+              <a href="#"><span>高山中学校 不登措根拠に向けた取組</span></a>
+            </li>
+            <li>
+              <a href="#"><span>学校いじめ防止基本方針</span></a>
+            </li>
+            <li>
+              <a href="#"><span>高山中学校 学校のさまり</span></a>
+            </li>
+            <li>
+              <a href="#"><span>令和7年度進級生対象保護者説明会資料</span></a>
+            </li>
+            <li>
+              <a href="#"><span>部活動</span></a>
+            </li>
+            <li>
+              <a href="#"><span>お問い合わせ</span></a>
+            </li>
+            <li>
+              <a href="#"><span>外国語への対応（Foreign language）</span></a>
+            </li>
+            <li>
+              <a href="#"><span>ラーケーション申請書ダウンロード</span></a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Calendar -->
+        <div class="calendar-box">
+          <div class="calendar-header">
+            <div class="calendar-nav">
+              <button>&lt;</button>
+              <div class="calendar-month">12月</div>
+              <button>&gt;</button>
+            </div>
+            <div style="color: #2d6a5f; font-size: 14px; font-weight: bold">2025年</div>
+          </div>
+          <div class="calendar-grid">
+            <div class="day-header">
+              <div class="day-header-cell sunday">日</div>
+              <div class="day-header-cell">月</div>
+              <div class="day-header-cell">火</div>
+              <div class="day-header-cell">水</div>
+              <div class="day-header-cell">木</div>
+              <div class="day-header-cell">金</div>
+              <div class="day-header-cell saturday">土</div>
+            </div>
+            <div class="calendar-days">
+              <div class="day-cell other-month"></div>
+              <div class="day-cell">1</div>
+              <div class="day-cell">2</div>
+              <div class="day-cell highlight">3</div>
+              <div class="day-cell">4</div>
+              <div class="day-cell">5</div>
+              <div class="day-cell">6</div>
+              <div class="day-cell">7</div>
+              <div class="day-cell">8</div>
+              <div class="day-cell">9</div>
+              <div class="day-cell">10</div>
+              <div class="day-cell">11</div>
+              <div class="day-cell">12</div>
+              <div class="day-cell">13</div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </body>
+</html>

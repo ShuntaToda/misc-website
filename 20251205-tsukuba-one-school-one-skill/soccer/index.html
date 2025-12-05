@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>サッカー勝利の極意 | Victory Strategy</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #1a472a;
+        --accent: #f4d03f;
+        --dark: #0d1b0f;
+        --light: #e8f5e9;
+        --grass: #2e7d32;
+        --white-line: rgba(255, 255, 255, 0.9);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Noto Sans JP", sans-serif;
+        background: var(--dark);
+        color: var(--light);
+        overflow-x: hidden;
+      }
+
+      /* Field Pattern Background */
+      .field-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: repeating-linear-gradient(90deg, var(--primary) 0px, var(--primary) 80px, #1e5631 80px, #1e5631 160px);
+        opacity: 0.3;
+        z-index: -1;
+      }
+
+      /* Header */
+      header {
+        position: relative;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 2rem;
+        overflow: hidden;
+      }
+
+      .goal-net {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: repeating-linear-gradient(
+            45deg,
+            transparent,
+            transparent 20px,
+            rgba(255, 255, 255, 0.03) 20px,
+            rgba(255, 255, 255, 0.03) 22px
+          ),
+          repeating-linear-gradient(
+            -45deg,
+            transparent,
+            transparent 20px,
+            rgba(255, 255, 255, 0.03) 20px,
+            rgba(255, 255, 255, 0.03) 22px
+          );
+        pointer-events: none;
+      }
+
+      .title-container {
+        position: relative;
+        overflow: hidden;
+      }
+
+      h1 {
+        font-family: "Oswald", sans-serif;
+        font-size: clamp(3rem, 12vw, 10rem);
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        line-height: 1;
+        color: var(--accent);
+        text-shadow: 4px 4px 0 var(--dark), 8px 8px 0 rgba(0, 0, 0, 0.3);
+        animation: slideInFromLeft 1s ease-out forwards;
+        transform: translateX(-100%);
+      }
+
+      .subtitle {
+        font-size: clamp(1rem, 3vw, 2rem);
+        font-weight: 500;
+        margin-top: 1rem;
+        color: var(--light);
+        opacity: 0;
+        animation: slideInFromRight 1s ease-out 0.3s forwards;
+        transform: translateX(100%);
+      }
+
+      .ball-icon {
+        width: 80px;
+        height: 80px;
+        margin-top: 3rem;
+        background: radial-gradient(circle at 30% 30%, #fff 0%, #ddd 50%, #999 100%);
+        border-radius: 50%;
+        position: relative;
+        animation: bounceIn 0.8s ease-out 0.6s forwards, rotate 4s linear infinite;
+        opacity: 0;
+        transform: scale(0);
+      }
+
+      .ball-icon::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 60%;
+        height: 60%;
+        background: radial-gradient(circle at 20% 20%, transparent 30%, #333 31%, #333 35%, transparent 36%),
+          radial-gradient(circle at 80% 20%, transparent 30%, #333 31%, #333 35%, transparent 36%),
+          radial-gradient(circle at 50% 80%, transparent 30%, #333 31%, #333 35%, transparent 36%);
+      }
+
+      .scroll-indicator {
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        opacity: 0;
+        animation: fadeIn 1s ease-out 1.2s forwards, bounce 2s ease-in-out infinite 1.5s;
+      }
+
+      .scroll-indicator span {
+        display: block;
+        width: 30px;
+        height: 50px;
+        border: 3px solid var(--accent);
+        border-radius: 20px;
+        position: relative;
+      }
+
+      .scroll-indicator span::before {
+        content: "";
+        position: absolute;
+        top: 8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 6px;
+        height: 10px;
+        background: var(--accent);
+        border-radius: 3px;
+        animation: scrollDown 2s ease-in-out infinite;
+      }
+
+      /* Sections */
+      section {
+        position: relative;
+        padding: 6rem 2rem;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .section-title {
+        font-family: "Oswald", sans-serif;
+        font-size: clamp(2rem, 6vw, 4rem);
+        font-weight: 700;
+        color: var(--accent);
+        margin-bottom: 3rem;
+        position: relative;
+        display: inline-block;
+      }
+
+      .section-title::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        width: 0;
+        height: 4px;
+        background: var(--accent);
+        transition: width 0.8s ease-out;
+      }
+
+      .section-title.visible::after {
+        width: 100%;
+      }
+
+      /* Strategy Cards */
+      .strategy-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 2rem;
+      }
+
+      .strategy-card {
+        background: linear-gradient(135deg, rgba(30, 86, 49, 0.9) 0%, rgba(26, 71, 42, 0.95) 100%);
+        border: 2px solid rgba(244, 208, 63, 0.3);
+        border-radius: 20px;
+        padding: 2.5rem;
+        position: relative;
+        overflow: hidden;
+        transform: translateX(-100%);
+        opacity: 0;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .strategy-card.slide-in {
+        animation: slideInCard 0.8s ease-out forwards;
+      }
+
+      .strategy-card:nth-child(2) {
+        animation-delay: 0.15s;
+      }
+      .strategy-card:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+      .strategy-card:nth-child(4) {
+        animation-delay: 0.45s;
+      }
+      .strategy-card:nth-child(5) {
+        animation-delay: 0.6s;
+      }
+      .strategy-card:nth-child(6) {
+        animation-delay: 0.75s;
+      }
+
+      .strategy-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      }
+
+      .strategy-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        transition: left 0.5s ease;
+      }
+
+      .strategy-card:hover::before {
+        left: 100%;
+      }
+
+      .card-number {
+        font-family: "Oswald", sans-serif;
+        font-size: 5rem;
+        font-weight: 700;
+        color: rgba(244, 208, 63, 0.15);
+        position: absolute;
+        top: -10px;
+        right: 20px;
+        line-height: 1;
+      }
+
+      .card-icon {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 1.5rem;
+        background: var(--accent);
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+      }
+
+      .strategy-card h3 {
+        font-family: "Oswald", sans-serif;
+        font-size: 1.5rem;
+        font-weight: 500;
+        color: var(--accent);
+        margin-bottom: 1rem;
+      }
+
+      .strategy-card p {
+        color: rgba(232, 245, 233, 0.9);
+        line-height: 1.8;
+      }
+
+      /* Formation Section */
+      .formation-section {
+        background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.3) 50%, transparent 100%);
+        padding: 8rem 2rem;
+      }
+
+      .formation-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4rem;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .field-diagram {
+        width: 350px;
+        height: 500px;
+        background: var(--grass);
+        border: 4px solid var(--white-line);
+        border-radius: 10px;
+        position: relative;
+        overflow: hidden;
+        transform: translateY(100px);
+        opacity: 0;
+        transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+      }
+
+      .field-diagram.visible {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      /* Field Markings */
+      .field-diagram::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: var(--white-line);
+        transform: translateY(-50%);
+      }
+
+      .center-circle {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100px;
+        height: 100px;
+        border: 4px solid var(--white-line);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .penalty-area-top,
+      .penalty-area-bottom {
+        position: absolute;
+        left: 50%;
+        width: 180px;
+        height: 70px;
+        border: 4px solid var(--white-line);
+        transform: translateX(-50%);
+      }
+
+      .penalty-area-top {
+        top: 0;
+        border-top: none;
+      }
+      .penalty-area-bottom {
+        bottom: 0;
+        border-bottom: none;
+      }
+
+      .player-dot {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        background: var(--accent);
+        border: 3px solid #fff;
+        border-radius: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        z-index: 10;
+      }
+
+      .player-dot.animate {
+        animation: playerAppear 0.5s ease-out forwards;
+      }
+
+      /* Player positions for 4-3-3 */
+      .gk {
+        top: 92%;
+        left: 50%;
+        animation-delay: 0s;
+      }
+      .lb {
+        top: 75%;
+        left: 15%;
+        animation-delay: 0.1s;
+      }
+      .cb1 {
+        top: 75%;
+        left: 35%;
+        animation-delay: 0.15s;
+      }
+      .cb2 {
+        top: 75%;
+        left: 65%;
+        animation-delay: 0.2s;
+      }
+      .rb {
+        top: 75%;
+        left: 85%;
+        animation-delay: 0.25s;
+      }
+      .cm1 {
+        top: 55%;
+        left: 25%;
+        animation-delay: 0.3s;
+      }
+      .cm2 {
+        top: 50%;
+        left: 50%;
+        animation-delay: 0.35s;
+      }
+      .cm3 {
+        top: 55%;
+        left: 75%;
+        animation-delay: 0.4s;
+      }
+      .lw {
+        top: 25%;
+        left: 15%;
+        animation-delay: 0.45s;
+      }
+      .st {
+        top: 15%;
+        left: 50%;
+        animation-delay: 0.5s;
+      }
+      .rw {
+        top: 25%;
+        left: 85%;
+        animation-delay: 0.55s;
+      }
+
+      .formation-info {
+        flex: 1;
+        min-width: 300px;
+        max-width: 500px;
+      }
+
+      .formation-title {
+        font-family: "Oswald", sans-serif;
+        font-size: 3rem;
+        color: var(--accent);
+        margin-bottom: 1.5rem;
+        transform: translateX(100px);
+        opacity: 0;
+        transition: transform 0.8s ease-out 0.3s, opacity 0.8s ease-out 0.3s;
+      }
+
+      .formation-title.visible {
+        transform: translateX(0);
+        opacity: 1;
+      }
+
+      .formation-list {
+        list-style: none;
+      }
+
+      .formation-list li {
+        padding: 1rem 0;
+        border-bottom: 1px solid rgba(244, 208, 63, 0.2);
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        transform: translateX(50px);
+        opacity: 0;
+        transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+      }
+
+      .formation-list li.visible {
+        transform: translateX(0);
+        opacity: 1;
+      }
+
+      .formation-list li::before {
+        content: "⚽";
+        font-size: 1.2rem;
+      }
+
+      /* Tips Section */
+      .tips-container {
+        position: relative;
+      }
+
+      .tip-item {
+        display: flex;
+        gap: 2rem;
+        margin-bottom: 3rem;
+        align-items: flex-start;
+        transform: translateX(-100%);
+        opacity: 0;
+      }
+
+      .tip-item.slide-in-left {
+        animation: slideFromLeft 0.8s ease-out forwards;
+      }
+
+      .tip-item.slide-in-right {
+        animation: slideFromRight 0.8s ease-out forwards;
+      }
+
+      .tip-item:nth-child(even) {
+        flex-direction: row-reverse;
+      }
+
+      .tip-number {
+        font-family: "Oswald", sans-serif;
+        font-size: 4rem;
+        font-weight: 700;
+        color: var(--accent);
+        line-height: 1;
+        min-width: 80px;
+        text-align: center;
+      }
+
+      .tip-content {
+        flex: 1;
+        background: rgba(30, 86, 49, 0.5);
+        padding: 2rem;
+        border-radius: 15px;
+        border-left: 4px solid var(--accent);
+      }
+
+      .tip-content h3 {
+        font-family: "Oswald", sans-serif;
+        font-size: 1.5rem;
+        color: var(--accent);
+        margin-bottom: 0.5rem;
+      }
+
+      /* CTA Section */
+      .cta-section {
+        text-align: center;
+        padding: 8rem 2rem;
+        background: linear-gradient(180deg, transparent, rgba(244, 208, 63, 0.1), transparent);
+      }
+
+      .cta-title {
+        font-family: "Oswald", sans-serif;
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        color: var(--accent);
+        margin-bottom: 2rem;
+        transform: scale(0.8);
+        opacity: 0;
+        transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+      }
+
+      .cta-title.visible {
+        transform: scale(1);
+        opacity: 1;
+      }
+
+      .cta-button {
+        display: inline-block;
+        padding: 1.2rem 3rem;
+        font-family: "Oswald", sans-serif;
+        font-size: 1.3rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--dark);
+        background: var(--accent);
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transform: translateY(50px);
+        opacity: 0;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .cta-button.visible {
+        animation: slideUp 0.8s ease-out 0.3s forwards;
+      }
+
+      .cta-button:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(244, 208, 63, 0.4);
+      }
+
+      .cta-button::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+        transition: left 0.5s ease;
+      }
+
+      .cta-button:hover::before {
+        left: 100%;
+      }
+
+      /* Footer */
+      footer {
+        background: rgba(0, 0, 0, 0.5);
+        padding: 3rem 2rem;
+        text-align: center;
+      }
+
+      footer p {
+        color: rgba(232, 245, 233, 0.6);
+        font-size: 0.9rem;
+      }
+
+      /* Animations */
+      @keyframes slideInFromLeft {
+        from {
+          transform: translateX(-100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideInFromRight {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideInCard {
+        from {
+          transform: translateX(-100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideFromLeft {
+        from {
+          transform: translateX(-100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideFromRight {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideUp {
+        from {
+          transform: translateY(50px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes bounceIn {
+        0% {
+          transform: scale(0);
+          opacity: 0;
+        }
+        50% {
+          transform: scale(1.2);
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      @keyframes rotate {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateX(-50%) translateY(0);
+        }
+        50% {
+          transform: translateX(-50%) translateY(-15px);
+        }
+      }
+
+      @keyframes scrollDown {
+        0%,
+        100% {
+          top: 8px;
+          opacity: 1;
+        }
+        50% {
+          top: 25px;
+          opacity: 0;
+        }
+      }
+
+      @keyframes playerAppear {
+        from {
+          transform: translate(-50%, -50%) scale(0);
+        }
+        to {
+          transform: translate(-50%, -50%) scale(1);
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .strategy-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .tip-item,
+        .tip-item:nth-child(even) {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .tip-content {
+          border-left: none;
+          border-top: 4px solid var(--accent);
+        }
+
+        .field-diagram {
+          width: 280px;
+          height: 400px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="field-bg"></div>
+
+    <header>
+      <div class="goal-net"></div>
+      <div class="title-container">
+        <h1>勝利の極意</h1>
+        <p class="subtitle">サッカーで勝つための完全攻略ガイド</p>
+      </div>
+      <div class="ball-icon"></div>
+      <div class="scroll-indicator">
+        <span></span>
+      </div>
+    </header>
+
+    <section id="strategy">
+      <h2 class="section-title">勝利への6つの鍵</h2>
+      <div class="strategy-grid">
+        <div class="strategy-card">
+          <span class="card-number">01</span>
+          <div class="card-icon">⚡</div>
+          <h3>ボールポゼッション</h3>
+          <p>ボールを支配する者が試合を支配する。パスの精度を高め、相手にボールを渡さない意識を持ち続けることが重要です。</p>
+        </div>
+        <div class="strategy-card">
+          <span class="card-number">02</span>
+          <div class="card-icon">🎯</div>
+          <h3>決定力の向上</h3>
+          <p>
+            チャンスを確実にゴールに結びつける。シュート練習を重ね、GKとの1対1、セットプレーからの得点パターンを増やしましょう。
+          </p>
+        </div>
+        <div class="strategy-card">
+          <span class="card-number">03</span>
+          <div class="card-icon">🛡️</div>
+          <h3>堅固な守備</h3>
+          <p>失点を防ぐことが勝利への第一歩。ラインコントロール、プレスのタイミング、カバーリングを徹底しましょう。</p>
+        </div>
+        <div class="strategy-card">
+          <span class="card-number">04</span>
+          <div class="card-icon">🔄</div>
+          <h3>トランジション</h3>
+          <p>攻守の切り替えを素早く。ボールを奪った瞬間のカウンター、失った時の即時プレスが試合の流れを決めます。</p>
+        </div>
+        <div class="strategy-card">
+          <span class="card-number">05</span>
+          <div class="card-icon">🧠</div>
+          <h3>戦術理解</h3>
+          <p>チーム全員が同じ絵を描く。フォーメーション、ポジショニング、状況判断を全員で共有することが不可欠です。</p>
+        </div>
+        <div class="strategy-card">
+          <span class="card-number">06</span>
+          <div class="card-icon">💪</div>
+          <h3>フィジカル&メンタル</h3>
+          <p>90分間戦い抜く体力と、プレッシャーに負けない精神力。日々のトレーニングとメンタルコントロールが勝敗を分けます。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="formation-section">
+      <div class="formation-container">
+        <div class="field-diagram">
+          <div class="center-circle"></div>
+          <div class="penalty-area-top"></div>
+          <div class="penalty-area-bottom"></div>
+          <div class="player-dot gk"></div>
+          <div class="player-dot lb"></div>
+          <div class="player-dot cb1"></div>
+          <div class="player-dot cb2"></div>
+          <div class="player-dot rb"></div>
+          <div class="player-dot cm1"></div>
+          <div class="player-dot cm2"></div>
+          <div class="player-dot cm3"></div>
+          <div class="player-dot lw"></div>
+          <div class="player-dot st"></div>
+          <div class="player-dot rw"></div>
+        </div>
+        <div class="formation-info">
+          <h2 class="formation-title">4-3-3 攻撃的布陣</h2>
+          <ul class="formation-list">
+            <li>サイドアタッカーの突破力を最大限に活かす</li>
+            <li>中盤3枚でボールを支配</li>
+            <li>高い位置からのプレスで相手を封じる</li>
+            <li>サイドバックの攻撃参加で数的優位を作る</li>
+            <li>CFへのくさびのパスから展開</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="tips">
+      <h2 class="section-title">実践テクニック</h2>
+      <div class="tips-container">
+        <div class="tip-item">
+          <span class="tip-number">01</span>
+          <div class="tip-content">
+            <h3>三角形を作れ</h3>
+            <p>
+              常に味方と三角形のポジショニングを意識する。これによりパスコースが生まれ、ボールを失いにくくなります。オフザボールの動きが勝敗を分けます。
+            </p>
+          </div>
+        </div>
+        <div class="tip-item">
+          <span class="tip-number">02</span>
+          <div class="tip-content">
+            <h3>スペースを使え</h3>
+            <p>相手の裏、サイドの空いたスペースを見逃すな。タイミング良く走り込み、パスを引き出すことで決定機を作り出せます。</p>
+          </div>
+        </div>
+        <div class="tip-item">
+          <span class="tip-number">03</span>
+          <div class="tip-content">
+            <h3>声を出せ</h3>
+            <p>コミュニケーションは最強の武器。「マーク！」「フリー！」「ターン！」の一声がチームを勝利に導きます。</p>
+          </div>
+        </div>
+        <div class="tip-item">
+          <span class="tip-number">04</span>
+          <div class="tip-content">
+            <h3>最後まで走れ</h3>
+            <p>勝負を決めるのは最後の10分。体力が切れた時こそ精神力で走り切る。その一歩がゴールを生む。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section">
+      <h2 class="cta-title">さあ、勝利を掴み取れ！</h2>
+      <button class="cta-button">トレーニング開始</button>
+    </section>
+
+    <footer>
+      <p>© 2025 サッカー勝利の極意 | Victory Strategy</p>
+    </footer>
+
+    <script>
+      // Intersection Observer for scroll animations
+      const observerOptions = {
+        threshold: 0.2,
+        rootMargin: "0px 0px -50px 0px",
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+
+            // Handle specific animations
+            if (entry.target.classList.contains("strategy-card")) {
+              entry.target.classList.add("slide-in");
+            }
+
+            if (entry.target.classList.contains("tip-item")) {
+              const index = Array.from(entry.target.parentNode.children).indexOf(entry.target);
+              entry.target.classList.add(index % 2 === 0 ? "slide-in-left" : "slide-in-right");
+            }
+
+            if (entry.target.classList.contains("field-diagram")) {
+              // Animate player dots
+              const dots = entry.target.querySelectorAll(".player-dot");
+              dots.forEach((dot) => dot.classList.add("animate"));
+            }
+          }
+        });
+      }, observerOptions);
+
+      // Observe elements
+      document.querySelectorAll(".section-title").forEach((el) => observer.observe(el));
+      document.querySelectorAll(".strategy-card").forEach((el) => observer.observe(el));
+      document.querySelectorAll(".tip-item").forEach((el) => observer.observe(el));
+      document.querySelectorAll(".field-diagram").forEach((el) => observer.observe(el));
+      document.querySelectorAll(".formation-title").forEach((el) => observer.observe(el));
+      document.querySelectorAll(".formation-list li").forEach((el, i) => {
+        el.style.transitionDelay = `${0.5 + i * 0.1}s`;
+        observer.observe(el);
+      });
+      document.querySelectorAll(".cta-title").forEach((el) => observer.observe(el));
+      document.querySelectorAll(".cta-button").forEach((el) => observer.observe(el));
+
+      // Smooth scroll
+      document.querySelector(".scroll-indicator").addEventListener("click", () => {
+        document.querySelector("#strategy").scrollIntoView({ behavior: "smooth" });
+      });
+    </script>
+  </body>
+</html>
