@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>愛知総合工科高等学校 講演 フォーム回答一覧</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+        color: #333;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      header {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        text-align: center;
+      }
+
+      header h1 {
+        font-size: 2.5em;
+        color: #667eea;
+        margin-bottom: 10px;
+      }
+
+      header p {
+        color: #666;
+        font-size: 1.1em;
+      }
+
+      .stats {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        margin-top: 20px;
+        flex-wrap: wrap;
+      }
+
+      .stat-item {
+        text-align: center;
+      }
+
+      .stat-value {
+        font-size: 2em;
+        font-weight: bold;
+        color: #667eea;
+      }
+
+      .stat-label {
+        font-size: 0.9em;
+        color: #999;
+        margin-top: 5px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 25px;
+      }
+
+      .card {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        transition: transform 0.3s, box-shadow 0.3s;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 15px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #f0f0f0;
+      }
+
+      .nickname {
+        font-size: 1.3em;
+        font-weight: bold;
+        color: #333;
+      }
+
+      .timestamp {
+        font-size: 0.85em;
+        color: #999;
+        white-space: nowrap;
+        margin-left: 10px;
+      }
+
+      .card-content {
+        flex: 1;
+        margin-bottom: 15px;
+      }
+
+      .preview-container {
+        border: 2px solid #f0f0f0;
+        border-radius: 10px;
+        overflow: hidden;
+        background: #f9f9f9;
+        max-height: 300px;
+        overflow-y: auto;
+      }
+
+      .preview-iframe {
+        width: 100%;
+        height: 300px;
+        border: none;
+        display: block;
+      }
+
+      .url-link {
+        display: inline-block;
+        padding: 12px 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        text-decoration: none;
+        border-radius: 25px;
+        font-weight: bold;
+        transition: transform 0.3s, box-shadow 0.3s;
+        word-break: break-all;
+      }
+
+      .url-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+      }
+
+      .code-preview {
+        padding: 15px;
+        background: #1e1e1e;
+        color: #d4d4d4;
+        font-family: "Courier New", monospace;
+        font-size: 0.85em;
+        border-radius: 8px;
+        max-height: 200px;
+        overflow-y: auto;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+      }
+
+      .card-footer {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 0.9em;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .btn-primary {
+        background: #667eea;
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background: #5568d3;
+      }
+
+      .btn-secondary {
+        background: #f0f0f0;
+        color: #666;
+      }
+
+      .btn-secondary:hover {
+        background: #e0e0e0;
+      }
+
+      .loading {
+        text-align: center;
+        padding: 50px;
+        color: white;
+        font-size: 1.2em;
+      }
+
+      .error {
+        background: #ff6b6b;
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        margin: 20px 0;
+      }
+
+      .empty {
+        text-align: center;
+        padding: 50px;
+        color: white;
+        font-size: 1.2em;
+      }
+
+      @media (max-width: 768px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+
+        header h1 {
+          font-size: 1.8em;
+        }
+
+        .controls {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .filter-buttons {
+          justify-content: center;
+        }
+      }
+
+      /* スクロールバーのスタイル */
+      .preview-container::-webkit-scrollbar,
+      .code-preview::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      .preview-container::-webkit-scrollbar-track,
+      .code-preview::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+
+      .preview-container::-webkit-scrollbar-thumb,
+      .code-preview::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 4px;
+      }
+
+      .preview-container::-webkit-scrollbar-thumb:hover,
+      .code-preview::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>🎨 愛知総合工科高等学校 講演 フォーム回答一覧</h1>
+        <p>作成されたウェブアプリケーションの一覧</p>
+        <div class="stats">
+          <div class="stat-item">
+            <div class="stat-value" id="total-count">0</div>
+            <div class="stat-label">総投稿数</div>
+          </div>
+        </div>
+      </header>
+
+      <div id="loading" class="loading">読み込み中...</div>
+      <div id="error" class="error" style="display: none"></div>
+      <div id="grid" class="grid"></div>
+    </div>
+
+    <script src="data.js"></script>
+    <script>
+      let allData = [];
+
+      // データを読み込む
+      function loadData() {
+        try {
+          // data.jsから読み込んだwebappDataを使用
+          allData = webappData;
+          document.getElementById("total-count").textContent = allData.length;
+          renderCards();
+          document.getElementById("loading").style.display = "none";
+        } catch (error) {
+          document.getElementById("loading").style.display = "none";
+          document.getElementById("error").style.display = "block";
+          document.getElementById("error").textContent = `エラー: ${error.message}`;
+        }
+      }
+
+      // HTMLかどうかを判定
+      function isHTML(text) {
+        if (!text) return false;
+        const trimmed = text.trim();
+        return trimmed.startsWith("<!DOCTYPE") || trimmed.startsWith("<html") || trimmed.includes("<html");
+      }
+
+      // URLかどうかを判定
+      function isURL(text) {
+        if (!text) return false;
+        const trimmed = text.trim();
+        return /^https?:\/\//i.test(trimmed);
+      }
+
+      // カードをレンダリング
+      function renderCards() {
+        const grid = document.getElementById("grid");
+
+        grid.innerHTML = allData
+          .map((item, index) => {
+            const isHtml = isHTML(item.webapp_code);
+            const isUrl = isURL(item.webapp_code);
+
+            let contentHtml = "";
+            if (isHtml) {
+              // HTMLの場合はプレビュー用のiframeを作成
+              const blob = new Blob([item.webapp_code], { type: "text/html" });
+              const url = URL.createObjectURL(blob);
+              contentHtml = `
+                <div class="preview-container">
+                  <iframe class="preview-iframe" src="${url}" sandbox="allow-scripts allow-same-origin"></iframe>
+                </div>
+                <div class="card-footer">
+                  <button class="btn btn-primary" onclick="openInNewTab('${url}')">新しいタブで開く</button>
+                  <button class="btn btn-secondary" onclick="showCode(${index})">コードを表示</button>
+                </div>
+              `;
+            } else if (isUrl) {
+              // URLの場合はリンクを表示
+              contentHtml = `
+                <div class="card-content">
+                  <a href="${item.webapp_code}" target="_blank" rel="noopener noreferrer" class="url-link">
+                    🔗 ${item.webapp_code}
+                  </a>
+                </div>
+                <div class="card-footer">
+                  <a href="${item.webapp_code}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">開く</a>
+                </div>
+              `;
+            } else {
+              // その他の場合はコードプレビュー
+              const codePreview = item.webapp_code.substring(0, 500) + (item.webapp_code.length > 500 ? "..." : "");
+              contentHtml = `
+                <div class="code-preview">${escapeHtml(codePreview)}</div>
+                <div class="card-footer">
+                  <button class="btn btn-secondary" onclick="showCode(${index})">全文を表示</button>
+                </div>
+              `;
+            }
+
+            return `
+              <div class="card">
+                <div class="card-header">
+                  <div class="nickname">${escapeHtml(item.nickname)}</div>
+                  <div class="timestamp">${escapeHtml(item.timestamp)}</div>
+                </div>
+                ${contentHtml}
+              </div>
+            `;
+          })
+          .join("");
+      }
+
+      // HTMLエスケープ
+      function escapeHtml(text) {
+        const div = document.createElement("div");
+        div.textContent = text;
+        return div.innerHTML;
+      }
+
+      // 新しいタブで開く
+      function openInNewTab(url) {
+        window.open(url, "_blank");
+      }
+
+      // コードを表示
+      function showCode(index) {
+        const item = allData[index];
+        const codeWindow = window.open("", "_blank");
+        codeWindow.document.write(`
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="UTF-8">
+            <title>コード表示 - ${escapeHtml(item.nickname)}</title>
+            <style>
+              body {
+                font-family: 'Courier New', monospace;
+                padding: 20px;
+                background: #1e1e1e;
+                color: #d4d4d4;
+              }
+              pre {
+                white-space: pre-wrap;
+                word-wrap: break-word;
+              }
+            </style>
+          </head>
+          <body>
+            <h2>${escapeHtml(item.nickname)} - ${escapeHtml(item.timestamp)}</h2>
+            <pre>${escapeHtml(item.webapp_code)}</pre>
+          </body>
+          </html>
+        `);
+      }
+
+      // 初期化
+      loadData();
+    </script>
+  </body>
+</html>
