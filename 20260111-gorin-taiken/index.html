@@ -96,17 +96,24 @@
       }
 
       li {
-        padding-left: 1.5em;
-        position: relative;
         margin-bottom: 8px;
         font-weight: 300;
       }
 
-      li::before {
+      ul li {
+        padding-left: 1.5em;
+        position: relative;
+      }
+
+      ul li::before {
         content: "—";
         position: absolute;
         left: 0;
         color: var(--gray-medium);
+      }
+
+      ol li {
+        padding-left: 0.5em;
       }
 
       .schedule-item {
@@ -156,17 +163,21 @@
       .tool-link {
         display: inline-block;
         padding: 12px 24px;
-        border: 1px solid var(--black);
+        border: none;
+        border-radius: 8px;
         text-decoration: none;
-        color: var(--black);
+        color: var(--white);
+        background: #628ae1;
         font-size: 0.9rem;
-        font-weight: 400;
+        font-weight: 500;
         transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
       }
 
       .tool-link:hover {
-        background: var(--black);
-        color: var(--white);
+        background: #869ee0;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+        transform: translateY(-1px);
       }
 
       .agenda {
