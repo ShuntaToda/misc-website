@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ものづくり体験会 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --black: #0a0a0a;
+        --white: #fafafa;
+        --gray-light: #e5e5e5;
+        --gray-medium: #666;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Zen Kaku Gothic New", "Noto Sans JP", sans-serif;
+        background-color: var(--white);
+        color: var(--black);
+        line-height: 1.8;
+        font-weight: 400;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 80px 24px;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 80px;
+        padding-bottom: 60px;
+        border-bottom: 1px solid var(--black);
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        margin-bottom: 24px;
+      }
+
+      .event-date {
+        font-size: 1.1rem;
+        font-weight: 300;
+        letter-spacing: 0.05em;
+      }
+
+      .event-venue {
+        font-size: 0.95rem;
+        color: var(--gray-medium);
+        margin-top: 8px;
+      }
+
+      section {
+        margin-bottom: 60px;
+      }
+
+      h2 {
+        font-size: 1.3rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        margin-bottom: 24px;
+        padding-bottom: 12px;
+        border-bottom: 2px solid var(--black);
+        display: inline-block;
+      }
+
+      h3 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-top: 32px;
+        margin-bottom: 12px;
+      }
+
+      p {
+        margin-bottom: 16px;
+        font-weight: 300;
+      }
+
+      ul {
+        list-style: none;
+        margin-left: 0;
+      }
+
+      li {
+        padding-left: 1.5em;
+        position: relative;
+        margin-bottom: 8px;
+        font-weight: 300;
+      }
+
+      li::before {
+        content: "—";
+        position: absolute;
+        left: 0;
+        color: var(--gray-medium);
+      }
+
+      .schedule-item {
+        display: grid;
+        grid-template-columns: 100px 1fr;
+        gap: 16px;
+        padding: 16px 0;
+        border-bottom: 1px solid var(--gray-light);
+      }
+
+      .schedule-time {
+        font-weight: 700;
+        font-size: 0.9rem;
+      }
+
+      .schedule-content {
+        font-weight: 300;
+      }
+
+      .instructor-card {
+        background: var(--black);
+        color: var(--white);
+        padding: 24px;
+        margin-bottom: 16px;
+      }
+
+      .instructor-card h3 {
+        color: var(--white);
+        margin-top: 0;
+        font-size: 0.9rem;
+        letter-spacing: 0.1em;
+        opacity: 0.7;
+      }
+
+      .instructor-card p {
+        margin-bottom: 0;
+        font-weight: 300;
+      }
+
+      .tools-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 16px;
+      }
+
+      .tool-link {
+        display: inline-block;
+        padding: 12px 24px;
+        border: 1px solid var(--black);
+        text-decoration: none;
+        color: var(--black);
+        font-size: 0.9rem;
+        font-weight: 400;
+        transition: all 0.3s ease;
+      }
+
+      .tool-link:hover {
+        background: var(--black);
+        color: var(--white);
+      }
+
+      .agenda {
+        counter-reset: agenda;
+      }
+
+      .agenda li {
+        counter-increment: agenda;
+        padding-left: 2.5em;
+      }
+
+      .agenda li::before {
+        content: counter(agenda) ".";
+        font-weight: 700;
+      }
+
+      .agenda li li {
+        counter-increment: none;
+      }
+
+      .agenda li li::before {
+        content: "→";
+        font-weight: 300;
+      }
+
+      footer {
+        margin-top: 80px;
+        padding-top: 40px;
+        border-top: 1px solid var(--black);
+        text-align: center;
+        font-size: 0.85rem;
+        color: var(--gray-medium);
+        font-weight: 300;
+      }
+
+      .screenshot {
+        margin: 24px 0;
+        border: 1px solid var(--gray-light);
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .screenshot img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      .screenshot-caption {
+        padding: 12px 16px;
+        background: var(--black);
+        color: var(--white);
+        font-size: 0.85rem;
+        font-weight: 300;
+      }
+
+      @media (max-width: 600px) {
+        .container {
+          padding: 40px 20px;
+        }
+
+        h1 {
+          font-size: 1.8rem;
+        }
+
+        .schedule-item {
+          grid-template-columns: 1fr;
+          gap: 4px;
+        }
+
+        .tools-list {
+          flex-direction: column;
+        }
+
+        .tool-link {
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>ものづくり体験会</h1>
+        <p class="event-date">2026年1月11日（日）13:00〜16:00</p>
+        <p class="event-venue">名古屋プライムセントラルタワー 名古屋駅前店 13階 第1会議室<br />名古屋市西区名駅2丁目27-8</p>
+      </header>
+
+      <section>
+        <h2>対象・参加者</h2>
+        <ul>
+          <li>小学校4〜6年生：建具（16名程度）</li>
+          <li>中学校1〜3年生：ウェブデザイン（6名程度）</li>
+          <li>保護者も参加可</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>スケジュール</h2>
+        <div class="schedule-item">
+          <span class="schedule-time">9:00</span>
+          <span class="schedule-content">スタッフ・講師会場入り／準備・設営</span>
+        </div>
+        <div class="schedule-item">
+          <span class="schedule-time">13:00</span>
+          <span class="schedule-content">参加者集合</span>
+        </div>
+        <div class="schedule-item">
+          <span class="schedule-time">13:00〜13:30</span>
+          <span class="schedule-content">講師紹介・技能五輪国際大会紹介（2職種合同）</span>
+        </div>
+        <div class="schedule-item">
+          <span class="schedule-time">13:30〜15:30</span>
+          <span class="schedule-content">
+            講師デモンストレーション・技能体験<br />
+            <strong>建具</strong>：組子細工、継ぎ手体験<br />
+            <strong>ウェブデザイン</strong>：ウェブサイト作り
+          </span>
+        </div>
+        <div class="schedule-item">
+          <span class="schedule-time">15:30〜16:00</span>
+          <span class="schedule-content">後片付け・講師講話（2職種合同）</span>
+        </div>
+      </section>
+
+      <section>
+        <h2>講師</h2>
+        <div class="instructor-card">
+          <h3>建具</h3>
+          <p>梅田聖泰さん（株式会社ナスク）</p>
+          <p>川口博敬さん（川口木工所）</p>
+          <p>井本和花さん（有限会社佐藤木型製作所）</p>
+        </div>
+        <div class="instructor-card">
+          <h3>ウェブデザイン</h3>
+          <p>戸田駿太さん（クラスメソッド株式会社）</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>配布物</h2>
+        <ul>
+          <li>トートバッグ＋缶バッジ</li>
+          <li>パンフレット・チラシ・ステッカー（愛知県より持参）</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>概要</h2>
+        <p>
+          建具は小学生向け、ウェブデザインは中学生向けの職人体験を実施。それぞれの内容を通じてものづくりへの興味や技能について学ぶイベントです。
+        </p>
+      </section>
+
+      <section>
+        <h2>ウェブデザイン体験</h2>
+
+        <p>今日は「ウェブサイトがどうやって作られているのか」を学び、実際に自分でウェブサイトやアプリを作ってみましょう！</p>
+
+        <h3>質問・感想を送ろう</h3>
+        <p>体験中に気になったことや感想があれば、いつでもSlidoから送ってください。匿名で投稿できるので、気軽にどうぞ！</p>
+        <div class="tools-list" style="margin-bottom: 32px">
+          <a
+            href="https://wall.sli.do/event/mroUevZqPcCDfT2wRBDcfn?section=404e6af4-af46-4c79-ba83-5e10956f1258"
+            class="tool-link"
+            target="_blank"
+            rel="noopener"
+            >Slidoはここをクリック</a
+          >
+        </div>
+
+        <h3>今日使うツール</h3>
+        <p>以下の3つのツールを使います。それぞれクリックして開いておきましょう。</p>
+        <div class="tools-list">
+          <a href="https://claude.ai" class="tool-link" target="_blank" rel="noopener">Claude（AI）</a>
+          <a href="https://app.sli.do/event/mroUevZqPcCDfT2wRBDcfn" class="tool-link" target="_blank" rel="noopener"
+            >Slido（質問）</a
+          >
+          <a href="https://codesandbox.io/" class="tool-link" target="_blank" rel="noopener">CodeSandbox（コード編集）</a>
+        </div>
+
+        <h3>ウェブサイトの仕組みを知ろう</h3>
+        <p>
+          みなさんが普段見ているウェブサイトは、<strong>HTML</strong>、<strong>CSS</strong>、<strong>JavaScript</strong>という3つの言語で作られています。
+        </p>
+        <ul>
+          <li><strong>HTML</strong> — ウェブサイトの「骨組み」。文章や画像などの内容を書く</li>
+          <li><strong>CSS</strong> — ウェブサイトの「見た目」。色やレイアウトを決める</li>
+          <li><strong>JavaScript</strong> — ウェブサイトの「動き」。ボタンを押したときの反応など</li>
+        </ul>
+        <p>下のスライドで詳しく解説しています。</p>
+        <iframe
+          class="speakerdeck-iframe"
+          frameborder="0"
+          src="https://speakerdeck.com/player/d00f40cd352541e6ad9ed084ccf70451"
+          title="2025/12/05 one school one skill ウェブサイト解説"
+          allowfullscreen="true"
+          style="
+            border: 0px;
+            background: padding-box padding-box rgba(0, 0, 0, 0.1);
+            margin: 0px;
+            padding: 0px;
+            border-radius: 6px;
+            box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 40px;
+            width: 100%;
+            height: auto;
+            aspect-ratio: 560 / 312;
+          "
+          data-ratio="1.794871794871795"
+        ></iframe>
+        <p style="margin-top: 16px">
+          <a href="https://dev.classmethod.jp/articles/gorin-one-school-one-skill/" target="_blank" rel="noopener"
+            >→ 参考記事を読む</a
+          >
+        </p>
+
+        <h3>ウェブサイトの中身を覗いてみよう</h3>
+        <p>
+          実は、どんなウェブサイトでも「中身」を見ることができます。ブラウザの<strong>DevTools（開発者ツール）</strong>を使うと、そのウェブサイトがどんなコードで作られているかがわかります。
+        </p>
+        <p>
+          キーボードで <strong>F12</strong> キーを押すか、右クリック
+          →「検証」で開けます。いろんなウェブサイトの中身を覗いてみましょう！
+        </p>
+        <div class="screenshot">
+          <img src="images/devtool開き方.png" alt="DevToolsの開き方 - 右クリックして検証を選ぶ" />
+          <p class="screenshot-caption">右クリック →「検証」でDevToolsを開けます</p>
+        </div>
+        <div class="screenshot">
+          <img src="images/devtoolsの画面.png" alt="DevToolsの画面 - HTMLとCSSが見える" />
+          <p class="screenshot-caption">DevToolsの画面。左にウェブサイト、右にHTMLとCSSのコードが表示されます</p>
+        </div>
+
+        <h3>AIを使ってウェブサイトを作ってみよう</h3>
+        <p>いよいよ実践です！<strong>Claude</strong>というAIを使って、自分だけのウェブサイトやアプリを作ってみましょう。</p>
+        <p>「こんなウェブサイトを作って」「こんなゲームが欲しい」など、日本語でお願いするだけでコードを書いてくれます。</p>
+        <div class="screenshot">
+          <img src="images/claudeプロンプトの画面.png" alt="Claudeにお願いを入力している画面" />
+          <p class="screenshot-caption">Claudeに日本語でお願いを入力します。例：「〇〇のウェブサイトを作ってください」</p>
+        </div>
+        <div class="screenshot">
+          <img src="images/claudeウェブ作成の画面.png" alt="Claudeがウェブサイトを作成した画面" />
+          <p class="screenshot-caption">Claudeがウェブサイトを作ってくれました！右側にプレビューが表示されます</p>
+        </div>
+        <ul>
+          <li>最初は簡単なウェブサイトから始めてみましょう</li>
+          <li>慣れてきたらゲームやアプリも自由に作ってOK！</li>
+          <li>わからないことがあれば、いつでも質問してください</li>
+        </ul>
+        <p style="margin-top: 24px">以前、高校生への講演で参加者がAIを使って作ったアプリの例はこちら：</p>
+        <div class="tools-list">
+          <a
+            href="https://shuntatoda.github.io/misc-website/20251216aichi-sougoukouka/index.html"
+            class="tool-link"
+            target="_blank"
+            rel="noopener"
+            >AIで作ったアプリの例を見る</a
+          >
+        </div>
+
+        <h3>作ったアプリを提出しよう</h3>
+        <p>作ったウェブサイトやアプリができたら、ぜひ提出してください！みんなの作品を後で見られるようにします。</p>
+        <p><strong>提出の手順：</strong></p>
+        <ol style="margin-left: 1.5em; margin-bottom: 16px">
+          <li style="padding-left: 0.5em; margin-bottom: 8px">
+            <strong>コードをコピーする</strong> — Claudeが作ってくれたHTMLコード全体を選択してコピー（Ctrl+C または Cmd+C）
+          </li>
+          <li style="padding-left: 0.5em; margin-bottom: 8px"><strong>フォームを開く</strong> — 下のボタンをクリック</li>
+          <li style="padding-left: 0.5em; margin-bottom: 8px">
+            <strong>ニックネームを入力</strong> — 好きな名前でOK（本名でなくて大丈夫）
+          </li>
+          <li style="padding-left: 0.5em; margin-bottom: 8px">
+            <strong>HTMLを貼り付ける</strong> — コピーしたコードを貼り付け（Ctrl+V または Cmd+V）
+          </li>
+          <li style="padding-left: 0.5em; margin-bottom: 8px"><strong>送信！</strong></li>
+        </ol>
+        <div class="tools-list">
+          <a
+            href="https://docs.google.com/forms/d/1vmOXJs2a53tuCOdSv0X6yJzpcVFX74wrWTb-aqQutpw/viewform"
+            class="tool-link"
+            target="_blank"
+            rel="noopener"
+            >作品を提出する（Googleフォーム）</a
+          >
+        </div>
+        <p style="margin-top: 16px; font-size: 0.9rem; color: var(--gray-medium)">
+          ※ 複数作品を作った場合は、何度でも提出してOKです！
+        </p>
+      </section>
+
+      <footer>
+        <p>ものづくり体験会 2026</p>
+      </footer>
+    </div>
+  </body>
+</html>
