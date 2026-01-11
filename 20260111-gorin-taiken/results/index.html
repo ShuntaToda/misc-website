@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>作品一覧 - 技能五輪体験</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Hiragino Kaku Gothic ProN", "メイリオ", sans-serif;
+        background-color: #ffffff;
+        color: #000000;
+        min-height: 100vh;
+        padding: 40px 20px;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      h1 {
+        text-align: center;
+        font-size: 2rem;
+        margin-bottom: 40px;
+        padding-bottom: 20px;
+        border-bottom: 3px solid #2563eb;
+      }
+
+      .app-list {
+        display: grid;
+        gap: 20px;
+      }
+
+      .app-card {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 16px;
+        transition: box-shadow 0.2s ease;
+      }
+
+      .app-card:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .app-info {
+        flex: 1;
+        min-width: 200px;
+      }
+
+      .app-name {
+        font-size: 1.4rem;
+        font-weight: bold;
+        margin-bottom: 8px;
+      }
+
+      .nickname {
+        font-size: 1rem;
+        color: #4b5563;
+      }
+
+      .nickname::before {
+        content: "👤 ";
+      }
+
+      .timestamp {
+        font-size: 0.85rem;
+        color: #6b7280;
+        margin-top: 4px;
+      }
+
+      .view-btn {
+        background-color: #2563eb;
+        color: #ffffff;
+        border: none;
+        padding: 12px 28px;
+        font-size: 1rem;
+        font-weight: bold;
+        border-radius: 8px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background-color 0.2s ease, transform 0.1s ease;
+      }
+
+      .view-btn:hover {
+        background-color: #1d4ed8;
+        transform: translateY(-2px);
+      }
+
+      .view-btn:active {
+        transform: translateY(0);
+      }
+
+      .count-info {
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 1.1rem;
+        color: #4b5563;
+      }
+
+      @media (max-width: 600px) {
+        h1 {
+          font-size: 1.5rem;
+        }
+
+        .app-card {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .view-btn {
+          width: 100%;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🎨 みんなの作品一覧</h1>
+      <p class="count-info">全 <span id="app-count">0</span> 作品</p>
+      <div class="app-list" id="app-list"></div>
+    </div>
+
+    <script src="data.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const appList = document.getElementById("app-list");
+        const appCount = document.getElementById("app-count");
+
+        appCount.textContent = webappData.length;
+
+        webappData.forEach(function (app) {
+          const card = document.createElement("div");
+          card.className = "app-card";
+
+          card.innerHTML = `
+                    <div class="app-info">
+                        <div class="app-name">🎮 ${app.app_name}</div>
+                        <div class="nickname">${app.nickname}</div>
+                        <div class="timestamp">📅 ${app.timestamp}</div>
+                    </div>
+                    <a href="${app.webapp_code}" target="_blank" class="view-btn">
+                        アプリを見る →
+                    </a>
+                `;
+
+          appList.appendChild(card);
+        });
+      });
+    </script>
+  </body>
+</html>
