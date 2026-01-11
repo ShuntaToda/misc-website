@@ -28,5 +28,11 @@ const webappData = [
     "nickname": "すすき",
     "webapp_code": "https://claude.ai/public/artifacts/8ed122c5-8547-4837-a927-eb2cf9e7e3bf",
     "app_name": "空飛ぶひよこ"
+  },
+  {
+    "timestamp": "2026/01/11 14:43:36",
+    "nickname": "ぐんぐん",
+    "webapp_code": "https://claude.ai/public/artifacts/8d08a46d-a5ab-421e-a0bf-6de87ec8acef",
+    "app_name": "養豚場"
   }
 ];
