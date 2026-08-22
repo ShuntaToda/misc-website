@@ -1,5 +1,5 @@
 /**
- * websites.shuntem.net トップページ
+ * sites.shuntem.net トップページ
  * - SITES 配列にサイト情報を追加するだけで一覧に反映されます。
  * - 背景は three.js のパーティクルネットワーク（WebGL 非対応時は CSS グラデーションのみ）。
  */

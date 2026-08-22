@@ -2,7 +2,7 @@
 
 イベント・講演・体験会のために作成した静的サイトをまとめて GitHub Pages で公開しているリポジトリです。
 
-- 公開URL: https://websites.shuntem.net/ （`CNAME` で独自ドメインを設定）
+- 公開URL: https://sites.shuntem.net/ （`CNAME` で独自ドメインを設定）
 - ビルド工程なし。リポジトリの内容がそのまま静的配信されます。
 
 ## ディレクトリ構成
