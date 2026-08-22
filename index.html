@@ -3,160 +3,59 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ウェブサイト一覧</title>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-        background: #2a2a2a;
-        min-height: 100vh;
-        padding: 40px 20px;
-      }
-
-      .container {
-        max-width: 800px;
-        margin: 0 auto;
-      }
-
-      h1 {
-        color: white;
-        text-align: center;
-        margin-bottom: 40px;
-        font-size: 2em;
-        font-weight: 600;
-      }
-
-      .site-list {
-        list-style: none;
-        border-top: 1px solid white;
-      }
-
-      .site-item {
-        border-bottom: 1px solid white;
-      }
-
-      .site-link {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        padding: 20px 0;
-        text-decoration: none;
-        color: white;
-        transition: opacity 0.2s;
-      }
-
-      .site-link:hover {
-        opacity: 0.6;
-      }
-
-      .site-info {
-        flex: 1;
-      }
-
-      .site-name {
-        font-size: 1.2em;
-        font-weight: 600;
-      }
-
-      .site-description {
-        font-size: 0.9em;
-        color: #aaa;
-        margin-top: 8px;
-        line-height: 1.5;
-      }
-
-      .site-date {
-        font-size: 0.9em;
-        color: #888;
-        white-space: nowrap;
-        margin-left: 20px;
-      }
-
-      .site-url {
-        display: block;
-        font-size: 0.85em;
-        color: #4a9eff;
-        margin-top: 5px;
-        margin-bottom: 20px;
-        text-decoration: underline;
-      }
-
-      .site-url:hover {
-        color: #6bb3ff;
-      }
-    </style>
+    <title>ウェブサイト一覧 | Shunta Toda / Websites</title>
+    <meta name="description" content="イベント・講演・体験会のために作成したウェブサイトのまとめ" />
+    <meta name="theme-color" content="#f7fbff" />
+    <link rel="stylesheet" href="./assets/home.css" />
+    <script type="importmap">
+      { "imports": { "three": "./vendor/three/three.module.min.js" } }
+    </script>
   </head>
   <body>
-    <div class="container">
-      <h1>📚 ウェブサイト一覧</h1>
-      <ul class="site-list">
-        <li class="site-item">
-          <a href="./20260824-komaki-guide/index.html" class="site-link">
-            <div class="site-info">
-              <div class="site-name">小牧工科高校 - 技能五輪ウェブデザイン職種を知ろう</div>
-              <div class="site-description">技能五輪・アビリンピック2026 競技解説ガイド勉強会。HTML/CSS/JSの仕組みと競技内容を、サイト内エディタとAIで体験しながら学ぶページ</div>
-            </div>
-            <div class="site-date">2026.08.24</div>
-          </a>
-        </li>
-        <li class="site-item">
-          <a href="./20260111-gorin-taiken/index.html" class="site-link">
-            <div class="site-info">
-              <div class="site-name">ものづくり体験会 - 技能五輪</div>
-              <div class="site-description">中学生向けのAIを使ったウェブサイト・アプリ制作体験のためのページ</div>
-            </div>
-            <div class="site-date">2026.01.11</div>
-          </a>
-        </li>
-        <li class="site-item">
-          <a href="./20251216aichi-sougoukouka/index.html" class="site-link">
-            <div class="site-info">
-              <div class="site-name">愛知総合工科高等学校 - 講演</div>
-              <div class="site-description">AIとウェブ開発に関する講演で作成した高校生によるウェブサイト・ゲームの作品一覧</div>
-            </div>
-            <div class="site-date">2025.12.16</div>
-          </a>
-          <a
-            href="https://dev.classmethod.jp/articles/highschool-vibe-coding/"
-            class="site-url"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            記事: https://dev.classmethod.jp/articles/highschool-vibe-coding/
-          </a>
-        </li>
-        <li class="site-item">
-          <a href="./20251205-tsukuba-one-school-one-skill/index.html" class="site-link">
-            <div class="site-info">
-              <div class="site-name">つくば市立高山中学校 - One School One Skill</div>
-              <div class="site-description">中学生によるAIを活用したウェブサイト・ゲーム制作の体験で作成した作品一覧</div>
-            </div>
-            <div class="site-date">2025.12.05</div>
-          </a>
-          <a
-            href="https://dev.classmethod.jp/articles/gorin-one-school-one-skill/"
-            class="site-url"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            記事: https://dev.classmethod.jp/articles/gorin-one-school-one-skill/
-          </a>
-        </li>
-        <li class="site-item">
-          <a href="./komaki20250613/index.html" class="site-link">
-            <div class="site-info">
-              <div class="site-name">小牧工科高校 - 技能五輪ウェブデザイン職種競技解説ガイド</div>
-              <div class="site-description">技能五輪全国大会2025のウェブデザイン職種の競技内容を解説するためのページ</div>
-            </div>
-            <div class="site-date">2025.06.13</div>
-          </a>
-        </li>
-      </ul>
+    <canvas id="bg" class="bg" aria-hidden="true"></canvas>
+
+    <div class="page">
+      <header class="hero">
+        <p class="hero__eyebrow reveal">Shunta Toda</p>
+        <h1 class="hero__title reveal">
+          <span class="hero__title-main">Websites</span>
+          <span class="hero__title-sub">イベント・講演で作ったサイトのまとめ</span>
+        </h1>
+        <p class="hero__lead reveal">
+          技能五輪のガイド、中高生向けのAI×ウェブ制作体験、セミナー資料など、
+          イベントや講演のために制作したウェブサイトを一覧にしています。
+        </p>
+        <p class="hero__count reveal" aria-live="polite">
+          <span id="count-shown">0</span> / <span id="count-total">0</span> sites
+        </p>
+      </header>
+
+      <section class="toolbar reveal" aria-label="絞り込みと並び替え">
+        <div class="toolbar__row">
+          <div class="search">
+            <svg class="search__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" />
+            </svg>
+            <input id="search" class="search__input" type="search" placeholder="キーワードで検索" aria-label="サイトを検索" autocomplete="off" />
+          </div>
+          <div class="sort" role="group" aria-label="並び替え">
+            <button type="button" class="chip is-active" data-sort="desc" aria-pressed="true">新しい順</button>
+            <button type="button" class="chip" data-sort="asc" aria-pressed="false">古い順</button>
+          </div>
+        </div>
+        <div id="year-chips" class="chips" role="group" aria-label="年で絞り込み"></div>
+      </section>
+
+      <main>
+        <ul id="grid" class="grid" aria-label="ウェブサイト一覧"></ul>
+        <p id="empty" class="empty" hidden>該当するサイトがありません。</p>
+      </main>
+
+      <footer class="footer reveal">
+        <a href="https://websites.shuntem.net/">websites.shuntem.net</a>
+      </footer>
     </div>
+
+    <script type="module" src="./assets/home.js"></script>
   </body>
 </html>
