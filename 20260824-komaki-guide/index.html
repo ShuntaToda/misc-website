@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>技能五輪 ウェブデザイン職種を知ろう｜2026.08.24 小牧工科高校</title>
+    <meta
+      name="description"
+      content="技能五輪・アビリンピック2026 競技解説ガイド勉強会（愛知県立小牧工科高校）。ウェブデザイン職種を自分の言葉で説明できるようになるための教材ページ。"
+    />
+    <link rel="stylesheet" href="vendor/codemirror/codemirror.css" />
+    <link rel="stylesheet" href="vendor/codemirror/material-darker.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a href="#top" class="brand"><span class="brand-dot"></span>WEB DESIGN GUIDE <small>2026.08.24 小牧工科高校</small></a>
+      <nav class="site-nav" aria-label="ページ内">
+        <a href="#timetable">流れ</a>
+        <a href="#gorin">技能五輪</a>
+        <a href="#skill">職種</a>
+        <a href="#howweb">仕組み</a>
+        <a href="#handson1">ハンズオン①</a>
+        <a href="#cheatsheet">早見表</a>
+        <a href="#handson2">ハンズオン②</a>
+        <a href="#mini">ミニ競技</a>
+        <a href="#story">解説の種</a>
+      </nav>
+      <button type="button" class="btn btn-sm" id="screenModeBtn" aria-pressed="false">スクリーンモード</button>
+    </header>
+
+    <button type="button" class="slide-nav prev" id="slidePrev" aria-label="前へ">←</button>
+    <button type="button" class="slide-nav next" id="slideNext" aria-label="次へ">→</button>
+    <div class="slide-counter" id="slideCounter" aria-hidden="true"></div>
+
+    <main id="top">
+      <!-- ========== 0. ヒーロー ========== -->
+      <section class="slide hero" id="hero">
+        <p class="hero-kicker">技能五輪・アビリンピック2026 競技解説ガイド 勉強会</p>
+        <h1>技能五輪<br /><span class="grad">ウェブデザイン職種</span>を知ろう</h1>
+        <p class="hero-sub">
+          12月の全国大会で、見学に来た小中高生に「ウェブデザインって何をする競技？」を<strong>自分の言葉で</strong>説明できるようになる2時間。
+        </p>
+        <div class="hero-meta">
+          <span class="meta-chip"><span class="k">DATE</span>2026年8月24日（月）13:00〜15:00</span>
+          <span class="meta-chip"><span class="k">PLACE</span>愛知県立小牧工科高等学校</span>
+        </div>
+        <div class="hero-actions">
+          <a href="#timetable" class="btn btn-primary">今日の流れを見る</a>
+          <a href="#handson1" class="btn">エディタを開く</a>
+        </div>
+        <div class="hero-bottom">
+          <div class="instructor card">
+            <div class="instructor-avatar">TS</div>
+            <div>
+              <div class="instructor-name">戸田 駿太<small>クラスメソッド株式会社</small></div>
+              <p class="instructor-bio">
+                第47回技能五輪国際大会 WorldSkills Lyon 2024 Web Technologies 日本代表。技能五輪全国大会 ウェブデザイン職種 金賞（2022・2023）。
+                ふだんはウェブアプリを作るエンジニア。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 1. 今日の流れ ========== -->
+      <section class="slide" id="timetable">
+        <div class="section-head">
+          <div class="section-num">01</div>
+          <div class="section-title">
+            <span class="time-label">13:00 – 15:00</span>
+            <h2>今日の流れ</h2>
+          </div>
+        </div>
+        <p class="section-lead">前半は「知る」、後半は「やってみる」。最後に、自分が解説するときの言葉を作ります。</p>
+        <ol class="timeline reveal">
+          <li>
+            <span class="t">0:00–0:10</span><span class="dot"></span>
+            <div class="body"><strong>自己紹介・技能五輪とは</strong><span>講師の話、大会のしくみ、12月の全国大会について</span></div>
+          </li>
+          <li>
+            <span class="t">0:10–0:25</span><span class="dot"></span>
+            <div class="body">
+              <strong>ウェブデザイン職種とは</strong><span>競技の流れ、モジュール、評価ポイント、使う道具、昨年の課題例</span>
+            </div>
+          </li>
+          <li>
+            <span class="t">0:25–0:35</span><span class="dot"></span>
+            <div class="body">
+              <strong>ウェブサイトの仕組み</strong><span>HTML＝骨組み ／ CSS＝見た目 ／ JS＝動き。DevToolsで好きなサイトを書きかえてみる</span>
+            </div>
+          </li>
+          <li class="hands">
+            <span class="t">0:35–1:10</span><span class="dot"></span>
+            <div class="body">
+              <strong>ハンズオン①: サイト内エディタで穴埋め</strong><span>HTML → CSS → JS の3ステップ。自己紹介カードを作って動かす</span>
+            </div>
+          </li>
+          <li class="break">
+            <span class="t">1:10–1:20</span><span class="dot"></span>
+            <div class="body"><strong>休憩</strong><span>10分</span></div>
+          </li>
+          <li class="hands">
+            <span class="t">1:20–1:45</span><span class="dot"></span>
+            <div class="body">
+              <strong>ハンズオン②: duck.ai でAI開発体験</strong><span>AIにコードを書いてもらう → エディタに貼る → 直してもらう</span>
+            </div>
+          </li>
+          <li>
+            <span class="t">1:45–2:00</span><span class="dot"></span>
+            <div class="body">
+              <strong>解説ストーリーの種づくり</strong><span>「小学生に30秒で説明するなら？」クイズ案を考えて、グループで発表</span>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <!-- ========== 2. 技能五輪とは ========== -->
+      <section class="slide" id="gorin">
+        <div class="section-head">
+          <div class="section-num">02</div>
+          <div class="section-title">
+            <span class="time-label">0:00 – 0:10</span>
+            <h2>技能五輪とは</h2>
+          </div>
+        </div>
+        <p class="section-lead">
+          「技能のオリンピック」。若い技能者が、ものづくりや サービスの腕を競う大会です。
+        </p>
+        <div class="grid grid-3 reveal">
+          <div class="card card-accent">
+            <p class="eyebrow">NATIONAL</p>
+            <h4>技能五輪全国大会</h4>
+            <p>原則23歳以下の日本一を決める大会。40以上の職種。<strong>2026年は12月5日(土)・6日(日)、愛知で開催。</strong>みんなはここで解説ガイド役！</p>
+          </div>
+          <div class="card card-accent lime">
+            <p class="eyebrow">INTERNATIONAL</p>
+            <h4>技能五輪国際大会（WorldSkills）</h4>
+            <p>2年に1回の世界大会。各国の代表が集まる。講師は2024年フランス・リヨン大会の日本代表として出場。</p>
+          </div>
+          <div class="card card-accent magenta">
+            <p class="eyebrow">ABILYMPICS</p>
+            <h4>アビリンピック</h4>
+            <p>障害のある人が技能を競う大会。全国大会と同時期に開催される。正式名は「全国障害者技能競技大会」。</p>
+          </div>
+        </div>
+        <h3>大会の雰囲気</h3>
+        <div class="photo-grid reveal">
+          <figure class="photo">
+            <img src="images/national2024-competing.jpg" alt="第62回技能五輪全国大会 ウェブデザイン職種の競技中。選手がPCに向かい、スクリーンに「残り 00:57:48」と表示されている" loading="lazy" />
+            <figcaption>第62回 技能五輪全国大会（2024）競技中。スクリーンに残り時間が出る。選手は時間と戦いながらコードを書く。</figcaption>
+          </figure>
+          <figure class="photo">
+            <img src="images/aichi2025-medals.jpg" alt="あいち技能五輪・アビリンピック2025 の金・銀・銅メダルの展示" loading="lazy" />
+            <figcaption>あいち技能五輪・アビリンピック2025 のメダル（金・銀・銅）。全国大会の上位入賞者に授与される。</figcaption>
+          </figure>
+        </div>
+
+        <h3>全国大会 → 国際大会への道</h3>
+        <figure class="diagram reveal">
+          <svg viewBox="0 0 960 300" role="img" aria-label="地方大会・予選から全国大会、日本代表、国際大会へと上っていく4段のステップ図">
+            <title>国際大会までの道のり</title>
+            <defs>
+              <linearGradient id="gStep" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#3d8bff" />
+                <stop offset="1" stop-color="#b8ff3d" />
+              </linearGradient>
+            </defs>
+            <line x1="40" y1="270" x2="920" y2="270" class="d-line" />
+            <polyline points="120,230 340,230 340,180 560,180 560,130 780,130 780,80 900,80" class="d-path" />
+            <g class="d-step">
+              <rect x="40" y="200" width="180" height="60" rx="12" class="d-box" />
+              <text x="130" y="226" text-anchor="middle" class="d-label">地方大会・予選</text>
+              <text x="130" y="247" text-anchor="middle" class="d-sub">都道府県・企業内の選考</text>
+              <text x="130" y="290" text-anchor="middle" class="d-num">STEP 1</text>
+            </g>
+            <g class="d-step">
+              <rect x="260" y="150" width="180" height="60" rx="12" class="d-box" />
+              <text x="350" y="176" text-anchor="middle" class="d-label">技能五輪全国大会</text>
+              <text x="350" y="197" text-anchor="middle" class="d-sub">23歳以下の日本一を決める</text>
+              <text x="350" y="290" text-anchor="middle" class="d-num">STEP 2</text>
+            </g>
+            <g class="d-step">
+              <rect x="480" y="100" width="180" height="60" rx="12" class="d-box" />
+              <text x="570" y="126" text-anchor="middle" class="d-label">日本代表に選ばれる</text>
+              <text x="570" y="147" text-anchor="middle" class="d-sub">約1年の強化訓練</text>
+              <text x="570" y="290" text-anchor="middle" class="d-num">STEP 3</text>
+            </g>
+            <g class="d-step">
+              <rect x="700" y="50" width="220" height="60" rx="12" class="d-box d-box-accent" />
+              <text x="810" y="76" text-anchor="middle" class="d-label d-label-dark">国際大会（WorldSkills）</text>
+              <text x="810" y="97" text-anchor="middle" class="d-sub d-sub-dark">Lyon 2024 ／ 次は 2026 上海</text>
+              <text x="810" y="290" text-anchor="middle" class="d-num">STEP 4</text>
+            </g>
+            <text x="810" y="30" text-anchor="middle" class="d-note">講師はここに出場</text>
+          </svg>
+          <figcaption>全国大会で上位に入ると日本代表の候補に。国際大会は4日間・合計15時間以上の競技。</figcaption>
+        </figure>
+
+        <div class="photo-grid with-portrait reveal">
+          <figure class="photo">
+            <img src="images/lyon2024-opening-ceremony.jpg" alt="WorldSkills Lyon 2024 開会式。紫の照明のアリーナで日本代表が日の丸を振っている" loading="lazy" />
+            <figcaption>WorldSkills Lyon 2024（国際大会）開会式。70以上の国・地域の選手が入場し、日本代表も日の丸を振って行進した。</figcaption>
+          </figure>
+          <figure class="photo portrait">
+            <video src="images/lyon2024.mp4" poster="images/lyon2024-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="WorldSkills Lyon 2024 閉会式の会場の動画"></video>
+            <figcaption>WorldSkills Lyon 2024（国際大会）の会場。動画・約10秒。</figcaption>
+          </figure>
+        </div>
+        <div class="callout info">
+          <span class="callout-icon">💬</span>
+          <div>
+            <p><strong>解説で使えるひとこと:</strong>「技能五輪は“ものづくりのオリンピック”。ウェブデザインは、その中でウェブサイトを作る速さと上手さを競う種目です。」</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 3. ウェブデザイン職種とは ========== -->
+      <section class="slide" id="skill">
+        <div class="section-head">
+          <div class="section-num">03</div>
+          <div class="section-title">
+            <span class="time-label">0:10 – 0:25</span>
+            <h2>ウェブデザイン職種とは</h2>
+          </div>
+        </div>
+        <p class="section-lead">
+          課題は<strong>当日まで秘密</strong>。配られた仕様書とデザインを見て、制限時間内にウェブサイトやウェブアプリを作ります。
+          デザインを見る力・コードを書く力・スピード、全部が必要です。
+        </p>
+
+        <div class="photo-grid two with-portrait reveal">
+          <figure class="photo">
+            <img src="images/national2025-venue.jpg" alt="第63回技能五輪全国大会 ウェブデザイン職種の競技会場。開始前で、机にPCとモニターが並び、スクリーンには大会名が映っている" loading="lazy" />
+            <figcaption>第63回 技能五輪全国大会（2025）ウェブデザイン職種の会場（開始前）。机・椅子・PC・モニターだけのブースで、見学者はすぐ近くから見られる。</figcaption>
+          </figure>
+          <figure class="photo portrait">
+            <img src="images/national2024-banner.jpg" alt="第62回技能五輪全国大会 ウェブデザイン職種の競技紹介バナー。競技スケジュールと職種の説明が書かれている" loading="lazy" />
+            <figcaption>第62回 技能五輪全国大会（2024）の競技紹介バナー。会場にはこうした職種の説明が立っている。</figcaption>
+          </figure>
+        </div>
+
+        <h3>競技の流れ（1つのモジュール）</h3>
+        <figure class="diagram reveal">
+          <svg viewBox="0 0 960 200" role="img" aria-label="課題配布、設計、実装、提出、採点の5つを矢印でつないだタイムライン">
+            <title>競技の流れ</title>
+            <line x1="60" y1="70" x2="900" y2="70" class="d-line-strong" />
+            <g class="d-node"><circle cx="80" cy="70" r="22" class="d-dot" /><text x="80" y="76" text-anchor="middle" class="d-dot-text">1</text><text x="80" y="125" text-anchor="middle" class="d-label">課題配布</text><text x="80" y="148" text-anchor="middle" class="d-sub">仕様書＋デザイン</text></g>
+            <g class="d-node"><circle cx="285" cy="70" r="22" class="d-dot" /><text x="285" y="76" text-anchor="middle" class="d-dot-text">2</text><text x="285" y="125" text-anchor="middle" class="d-label">設計</text><text x="285" y="148" text-anchor="middle" class="d-sub">読む・整理する・順番を決める</text></g>
+            <g class="d-node"><circle cx="490" cy="70" r="22" class="d-dot d-dot-accent" /><text x="490" y="76" text-anchor="middle" class="d-dot-text d-label-dark">3</text><text x="490" y="125" text-anchor="middle" class="d-label">実装</text><text x="490" y="148" text-anchor="middle" class="d-sub">コードを書く・ブラウザで確認</text><text x="490" y="171" text-anchor="middle" class="d-sub">（時間のほとんどはここ）</text></g>
+            <g class="d-node"><circle cx="695" cy="70" r="22" class="d-dot" /><text x="695" y="76" text-anchor="middle" class="d-dot-text">4</text><text x="695" y="125" text-anchor="middle" class="d-label">提出</text><text x="695" y="148" text-anchor="middle" class="d-sub">時間で強制終了</text></g>
+            <g class="d-node"><circle cx="880" cy="70" r="22" class="d-dot" /><text x="880" y="76" text-anchor="middle" class="d-dot-text">5</text><text x="880" y="125" text-anchor="middle" class="d-label">採点</text><text x="880" y="148" text-anchor="middle" class="d-sub">審査員がチェック</text></g>
+            <text x="182" y="40" text-anchor="middle" class="d-note">5〜10分</text>
+            <text x="490" y="40" text-anchor="middle" class="d-note">1〜3時間</text>
+          </svg>
+          <figcaption>「設計」を飛ばしていきなり書きはじめると、あとで直す時間がなくなる。速い選手ほど最初に考える。</figcaption>
+        </figure>
+        <ul class="steps-list reveal">
+          <li><div><strong>課題が配られる</strong> — 仕様書（文章）とデザインカンプ（完成イメージの画像）。読んで、やることを整理する</div></li>
+          <li><div><strong>作る</strong> — エディタでコードを書く。ブラウザで確認しながら進める。制限時間は1〜3時間くらい</div></li>
+          <li><div><strong>提出</strong> — 時間になったら手を止める。未完成でも提出</div></li>
+          <li><div><strong>採点</strong> — 審査員が「仕様どおりか」「デザインどおりか」「コードがきれいか」を見る</div></li>
+        </ul>
+
+        <h3>モジュール（全国大会）</h3>
+        <p>全国大会は2日間で、いくつかの「モジュール」（種目）を順番にこなします。内容は年によって変わりますが、だいたいこんな種類です。</p>
+        <div class="module-list reveal">
+          <div class="module">
+            <div class="mnum">M1<small>SPEED</small></div>
+            <div>
+              <h4>スピードテスト</h4>
+              <p>短い時間で小さな課題をたくさん。HTML/CSS/JS の基本を、どれだけ速く正確にできるか。</p>
+            </div>
+          </div>
+          <div class="module">
+            <div class="mnum">M2<small>BACKEND</small></div>
+            <div>
+              <h4>バックエンド / API・CMS開発</h4>
+              <p>データを保存したり、ログインしたりする「裏側」を作る。データベースやAPIを設計する。</p>
+            </div>
+          </div>
+          <div class="module">
+            <div class="mnum">M3<small>FRONTEND</small></div>
+            <div>
+              <h4>デザインカンプから静的サイト構築</h4>
+              <p>渡されたデザイン画像をそっくりそのまま、ブラウザで動くページにする。スマホでもくずれないように。</p>
+            </div>
+          </div>
+          <div class="module">
+            <div class="mnum">M4<small>APP</small></div>
+            <div>
+              <h4>インタラクティブなアプリ</h4>
+              <p>JavaScriptを使ったゲームやツール。押す・動く・保存する、など「動き」のあるもの。</p>
+            </div>
+          </div>
+        </div>
+
+        <figure class="diagram reveal">
+          <svg viewBox="0 0 960 330" role="img" aria-label="スピードテスト、静的サイト構築、バックエンド・APIの3つのブロックと、その下に共通の評価観点4つを並べた図">
+            <title>モジュール構成と評価観点</title>
+            <g>
+              <rect x="20" y="20" width="293" height="170" rx="14" class="d-box" />
+              <text x="166" y="56" text-anchor="middle" class="d-head">スピードテスト</text>
+              <text x="166" y="90" text-anchor="middle" class="d-sub">短い課題をたくさん</text>
+              <text x="166" y="114" text-anchor="middle" class="d-sub">HTML / CSS / JS の基本</text>
+              <text x="166" y="138" text-anchor="middle" class="d-sub">速さ × 正確さ</text>
+              <text x="166" y="172" text-anchor="middle" class="d-tag">約1時間</text>
+            </g>
+            <g>
+              <rect x="333" y="20" width="293" height="170" rx="14" class="d-box" />
+              <text x="479" y="56" text-anchor="middle" class="d-head">静的サイト構築</text>
+              <text x="479" y="90" text-anchor="middle" class="d-sub">デザインカンプをそっくり再現</text>
+              <text x="479" y="114" text-anchor="middle" class="d-sub">スマホでもくずれない</text>
+              <text x="479" y="138" text-anchor="middle" class="d-sub">HTML / CSS / JS</text>
+              <text x="479" y="172" text-anchor="middle" class="d-tag">2〜3時間</text>
+            </g>
+            <g>
+              <rect x="646" y="20" width="294" height="170" rx="14" class="d-box" />
+              <text x="793" y="56" text-anchor="middle" class="d-head">バックエンド / API・CMS</text>
+              <text x="793" y="90" text-anchor="middle" class="d-sub">データを保存・取り出す</text>
+              <text x="793" y="114" text-anchor="middle" class="d-sub">ログイン、管理画面</text>
+              <text x="793" y="138" text-anchor="middle" class="d-sub">サーバー側のプログラム</text>
+              <text x="793" y="172" text-anchor="middle" class="d-tag">2〜3時間</text>
+            </g>
+            <polyline points="166,190 166,215 793,215 793,190" class="d-path" />
+            <line x1="479" y1="190" x2="479" y2="235" class="d-path" />
+            <rect x="20" y="235" width="920" height="75" rx="14" class="d-box d-box-dim" />
+            <text x="60" y="265" class="d-head-sm">どのモジュールも同じ観点で採点</text>
+            <g class="d-chip"><rect x="60" y="275" width="170" height="26" rx="13" /><text x="145" y="293" text-anchor="middle">仕様どおり動く</text></g>
+            <g class="d-chip"><rect x="245" y="275" width="170" height="26" rx="13" /><text x="330" y="293" text-anchor="middle">デザインどおり</text></g>
+            <g class="d-chip"><rect x="430" y="275" width="170" height="26" rx="13" /><text x="515" y="293" text-anchor="middle">コードの品質</text></g>
+            <g class="d-chip"><rect x="615" y="275" width="170" height="26" rx="13" /><text x="700" y="293" text-anchor="middle">アクセシビリティ</text></g>
+            <g class="d-chip"><rect x="800" y="275" width="120" height="26" rx="13" /><text x="860" y="293" text-anchor="middle">Web標準</text></g>
+          </svg>
+          <figcaption>モジュールの数や内容は年によって変わる。評価観点はほぼ共通。</figcaption>
+        </figure>
+
+        <h3>評価ポイント</h3>
+        <div class="score-list reveal">
+          <div class="card"><h4>仕様どおりに動くか</h4><p>ボタンを押したら正しく動く？ 入力チェックは？ 書かれた機能が全部ある？</p></div>
+          <div class="card"><h4>デザインどおりか</h4><p>色・サイズ・余白・フォントが見本と同じ？ 画面幅を変えてもくずれない？</p></div>
+          <div class="card"><h4>コードの品質</h4><p>HTMLの書き方が正しい？ 名前がわかりやすい？ 誰が読んでも理解できる？</p></div>
+          <div class="card"><h4>アクセシビリティ</h4><p>目の不自由な人が使う読み上げソフトでも使える？ キーボードだけで操作できる？</p></div>
+          <div class="card"><h4>Web標準への準拠</h4><p>ブラウザのルール（標準）どおりに書いている？ どのブラウザでも動く？</p></div>
+          <div class="card"><h4>国際大会では＋α</h4><p>数日かけて設計・デザイン・フロント・バックエンドを総合評価。プロジェクトの進め方も見られる。</p></div>
+        </div>
+
+        <h3>使う道具</h3>
+        <p>特別な機械はありません。プロが毎日使っているのと同じ3つ。</p>
+        <div class="tools-row reveal">
+          <span class="tool">エディタ（VS Code など）</span>
+          <span class="tool">ブラウザ（Chrome など）</span>
+          <span class="tool">DevTools（ブラウザの開発者ツール）</span>
+        </div>
+
+        <h3>こんな課題が出た — 昨年（2025）のモジュール3</h3>
+        <div class="m3-demo reveal">
+          <div class="m3-mock" aria-hidden="true">
+            <div class="bar"><i></i><i></i><i></i></div>
+            <div class="m3-stage"></div>
+            <div class="m3-thumbs"><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="m3-ctrl"><span class="on">基本</span><span>フェード</span><span>ぼかし</span><span>▶ 自動再生</span></div>
+          </div>
+          <div>
+            <h4>写真スライドショーアプリ</h4>
+            <ul>
+              <li>写真が<strong>自動で切りかわる</strong>スライドショー</li>
+              <li>切りかわり方を3つのテーマから選べる（基本・フェード・ぼかし）</li>
+              <li><strong>ドラッグ＆ドロップ</strong>で写真を追加できる</li>
+              <li>写真の一覧はサーバー（バックエンド）から取ってくる</li>
+            </ul>
+            <p>
+              これを<strong>2時間半</strong>で、仕様書とデザインを見ながら作ります。「自動で切りかわる」「ドラッグで追加」は、今日の STEP 3 でやる JavaScript の延長線上にあります。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 4. ウェブサイトの仕組み ========== -->
+      <section class="slide" id="howweb">
+        <div class="section-head">
+          <div class="section-num">04</div>
+          <div class="section-title">
+            <span class="time-label">0:25 – 0:35</span>
+            <h2>ウェブサイトの仕組み</h2>
+          </div>
+        </div>
+        <p class="section-lead">どんなウェブサイトも、たった3つの言葉でできています。人にたとえると <strong>骨組み・服・動き</strong>。</p>
+
+        <h3>ブラウザとサーバーの往復</h3>
+        <figure class="diagram reveal">
+          <svg viewBox="0 0 960 360" role="img" aria-label="左のブラウザが右のサーバーにリクエストを送り、サーバーがHTML・CSS・JSをレスポンスとして返す。ブラウザの中では HTML・CSS・JS の3層が重なって1つのページになる">
+            <title>ウェブサイトの仕組み</title>
+            <defs>
+              <marker id="arrowB" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="d-arrow-b" /></marker>
+              <marker id="arrowL" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="d-arrow-l" /></marker>
+            </defs>
+            <!-- browser -->
+            <rect x="30" y="40" width="400" height="290" rx="14" class="d-box" />
+            <rect x="30" y="40" width="400" height="34" rx="14" class="d-box-bar" />
+            <circle cx="52" cy="57" r="5" class="d-win" /><circle cx="70" cy="57" r="5" class="d-win" /><circle cx="88" cy="57" r="5" class="d-win" />
+            <rect x="110" y="48" width="300" height="18" rx="9" class="d-url" />
+            <text x="120" y="61" class="d-url-text">https://example.com</text>
+            <text x="230" y="100" text-anchor="middle" class="d-head-sm">ブラウザ（あなたのPC）</text>
+            <!-- layers -->
+            <g transform="translate(80 120) skewX(-12)">
+              <rect x="0" y="130" width="300" height="60" rx="8" class="d-layer d-layer-html" />
+              <text x="20" y="158" class="d-layer-name">HTML</text><text x="20" y="178" class="d-layer-desc">骨組み・中身</text>
+              <rect x="20" y="75" width="300" height="60" rx="8" class="d-layer d-layer-css" />
+              <text x="40" y="103" class="d-layer-name">CSS</text><text x="40" y="123" class="d-layer-desc">見た目</text>
+              <rect x="40" y="20" width="300" height="60" rx="8" class="d-layer d-layer-js" />
+              <text x="60" y="48" class="d-layer-name">JavaScript</text><text x="60" y="68" class="d-layer-desc">動き</text>
+            </g>
+            <text x="230" y="322" text-anchor="middle" class="d-sub">3つが重なって1つのページになる</text>
+            <!-- arrows -->
+            <line x1="450" y1="140" x2="700" y2="140" class="d-req" marker-end="url(#arrowB)" />
+            <text x="575" y="125" text-anchor="middle" class="d-label">① リクエスト</text>
+            <text x="575" y="165" text-anchor="middle" class="d-sub">「このページをください」</text>
+            <line x1="700" y1="230" x2="450" y2="230" class="d-res" marker-end="url(#arrowL)" />
+            <text x="575" y="215" text-anchor="middle" class="d-label">② レスポンス</text>
+            <text x="575" y="255" text-anchor="middle" class="d-sub">HTML・CSS・JS のファイルを返す</text>
+            <!-- server -->
+            <g>
+              <rect x="720" y="80" width="210" height="210" rx="14" class="d-box" />
+              <text x="825" y="115" text-anchor="middle" class="d-head-sm">サーバー（どこかのPC）</text>
+              <rect x="750" y="135" width="150" height="30" rx="6" class="d-srv" /><circle cx="765" cy="150" r="4" class="d-led" />
+              <rect x="750" y="175" width="150" height="30" rx="6" class="d-srv" /><circle cx="765" cy="190" r="4" class="d-led" />
+              <rect x="750" y="215" width="150" height="30" rx="6" class="d-srv" /><circle cx="765" cy="230" r="4" class="d-led" />
+              <text x="825" y="275" text-anchor="middle" class="d-sub">ファイルを置いておく場所</text>
+            </g>
+          </svg>
+          <figcaption>URLを入力する → サーバーにお願いが飛ぶ → ファイルが返ってくる → ブラウザが3つを組み立てて表示。これが毎回起きている。</figcaption>
+        </figure>
+
+        <h3>3つの言葉の役割</h3>
+
+        <div class="tri reveal">
+          <div class="card">
+            <div class="big c-html">HTML</div>
+            <div class="role">骨組み・中身</div>
+            <p>見出し、文章、画像、ボタン。「何があるか」を書く。</p>
+            <ul class="terms">
+              <li><strong class="c-html">タグ</strong> … <code>&lt;p&gt;…&lt;/p&gt;</code> のように <code>&lt; &gt;</code> で囲んで「ここは段落」と印をつける。開始タグと終了タグ</li>
+              <li><strong class="c-html">要素</strong> … タグで囲まれたひとかたまり</li>
+              <li><strong class="c-html">属性</strong> … <code>&lt;img src="…"&gt;</code> のようにタグに付ける追加情報</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="big c-css">CSS</div>
+            <div class="role">見た目</div>
+            <p>色、大きさ、ならび方、角丸、影。「どう見せるか」を書く。</p>
+            <ul class="terms">
+              <li><strong class="c-css">セレクタ</strong> … どこに当てるか（<code>button</code>、<code>.card</code>、<code>#title</code>）</li>
+              <li><strong class="c-css">プロパティ</strong> … 何を変えるか（<code>color</code>、<code>font-size</code>）</li>
+              <li><strong class="c-css">値</strong> … どう変えるか（<code>red</code>、<code>20px</code>）</li>
+            </ul>
+            <p class="terms-formula">書き方: <code>セレクタ { プロパティ: 値; }</code></p>
+          </div>
+          <div class="card">
+            <div class="big c-js">JavaScript</div>
+            <div class="role">動き</div>
+            <p>押したら変わる、数える、保存する。「何が起きるか」を書く。</p>
+            <ul class="terms">
+              <li><strong class="c-js">変数</strong> … 数や文字を入れておく箱（<code>let count = 0</code>）</li>
+              <li><strong class="c-js">関数</strong> … まとめた処理（<code>function …</code>）</li>
+              <li><strong class="c-js">イベント</strong> … 「押したとき」などのきっかけ（<code>click</code>）</li>
+            </ul>
+            <p class="terms-formula">要素を取って、きっかけで、変える。</p>
+          </div>
+        </div>
+
+        <h3>同じHTMLでも、CSSがあるとこう変わる</h3>
+        <p>この3つの言葉を実際のコードで積み重ねるとこうなる。左がコード、右がブラウザの表示。3枚目のボタンは本当に押せる。</p>
+        <div class="stack-demo reveal" id="stackDemo"></div>
+
+        <h3>DevTools で好きなサイトを書きかえてみよう</h3>
+        <p>
+          どんなサイトでも「中身」をのぞけます。ブラウザの <strong>DevTools（開発者ツール）</strong> を開くと、HTMLとCSSが見えて、その場で書きかえられます（自分の画面の中だけ。元のサイトは変わらない）。
+        </p>
+        <div class="key-row">
+          <span>開き方:</span> <kbd>F12</kbd> <span>または</span> <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>I</kbd>
+          <span>／ Mac は</span> <kbd>⌘</kbd>+<kbd>option</kbd>+<kbd>I</kbd>
+          <span>／ ページを右クリック →「検証」</span>
+        </div>
+
+        <ol class="devtools-steps reveal">
+          <li class="dt-step">
+            <div class="dt-head"><span class="dt-num">1</span><h4>開く — 右クリック →「検証」</h4></div>
+            <p>好きなサイトを開く（例: <a href="https://www.javada.or.jp/jigyou/gino/zenkoku/" target="_blank" rel="noopener noreferrer">JAVADA 技能五輪全国大会ページ</a>）。ページの上で<strong>右クリック</strong>して、メニューのいちばん下の<strong>「検証」</strong>を押す。<kbd>F12</kbd> でも同じ。</p>
+            <figure class="shot">
+              <img src="images/devtools-step1-open.jpg" alt="JAVADA の技能五輪全国大会ページで右クリックしたところ。メニューのいちばん下に「検証」がある" loading="lazy" />
+              <span class="shot-mark" style="left: 69.5%; top: 86.2%; width: 9%; height: 6.2%"></span>
+              <span class="shot-label" style="left: 45%; top: 86.5%">「検証」はここ →</span>
+            </figure>
+            <p class="dt-try"><strong>やってみよう:</strong> 学校のホームページを開いて、右クリック →「検証」。</p>
+          </li>
+          <li class="dt-step">
+            <div class="dt-head"><span class="dt-num">2</span><h4>見る — 上が HTML、下が CSS</h4></div>
+            <p>右側に DevTools が開く。上の <strong>Elements</strong> がそのページの HTML、下の <strong>Styles</strong> が選んだ要素の CSS。左上の矢印アイコンを押してからページの文字をクリックすると、その行が青くハイライトされる。</p>
+            <figure class="shot">
+              <img src="images/devtools-step2-panel.jpg" alt="右側に DevTools が開き、Elements パネルで h1 要素「技能五輪全国大会」が選択され、下の Styles にその CSS が表示されている" loading="lazy" />
+              <span class="shot-box" style="left: 67.5%; top: 1.5%; width: 32%; height: 42%"><span class="shot-box-tag">① Elements = HTML</span></span>
+              <span class="shot-box alt" style="left: 67.5%; top: 47%; width: 32%; height: 52%"><span class="shot-box-tag">② Styles = CSS</span></span>
+              <span class="shot-mark" style="left: 71.5%; top: 16.5%; width: 23%; height: 4.2%"></span>
+              <span class="shot-label" style="left: 38%; top: 15.5%">③ 選んでいる &lt;h1&gt; →</span>
+            </figure>
+            <p class="dt-try"><strong>やってみよう:</strong> 矢印アイコン → ページの見出しをクリック → Elements で <code>&lt;h1&gt;</code> が光るのを確認。</p>
+          </li>
+          <li class="dt-step">
+            <div class="dt-head"><span class="dt-num">3</span><h4>書きかえる — ダブルクリックして入力</h4></div>
+            <p>Elements の文字を<strong>ダブルクリック</strong>すると入力できる。好きな文字にして <kbd>Enter</kbd> → ページの文字が変わる！ Styles の <code>color</code> や <code>background-color</code> の値をクリックして <code>red</code> などに変えると見た目も変わる。</p>
+            <figure class="shot">
+              <img src="images/devtools-step3-edit.jpg" alt="Elements パネルの拡大。h1 要素の中の「技能五輪全国大会」という文字の部分" loading="lazy" />
+              <span class="shot-mark" style="left: 42%; top: 32%; width: 19%; height: 16%"></span>
+              <span class="shot-bubble" style="right: 3%; top: 8%">ここを<strong>ダブルクリック</strong></span>
+            </figure>
+            <p class="dt-try"><strong>やってみよう:</strong> 見出しを自分の名前に変える／Styles で背景色を <code>red</code> にする。</p>
+          </li>
+          <li class="dt-step dt-note">
+            <div class="dt-head"><span class="dt-num">4</span><h4>戻す — こわれないので安心</h4></div>
+            <div class="dt-note-body">
+              <p class="dt-big">変わるのは<strong>自分の画面の中だけ</strong>。</p>
+              <p>元のサイト（サーバーにあるファイル）は1文字も変わらない。他の人の画面にも出ない。</p>
+              <p class="dt-big"><kbd>F5</kbd>（再読み込み）で<strong>すぐ元に戻る</strong>。</p>
+              <p>だから、どんどんさわってOK。選手はこの DevTools で、見本と1ピクセルのズレまで合わせていく。</p>
+            </div>
+            <p class="dt-try"><strong>やってみよう:</strong> 書きかえたあとに <kbd>F5</kbd> → 元に戻るのを確認。</p>
+          </li>
+        </ol>
+        <div class="callout info">
+          <span class="callout-icon">💬</span>
+          <div>
+            <p><strong>解説で使えるひとこと:</strong>「選手はこのDevToolsを使って、1ピクセルのズレまで見本と合わせていきます。」</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 5. ハンズオン① ========== -->
+      <section class="slide" id="handson1">
+        <div class="section-head">
+          <div class="section-num">05</div>
+          <div class="section-title">
+            <span class="time-label">0:35 – 1:10</span>
+            <h2>ハンズオン①: エディタで穴埋め</h2>
+          </div>
+        </div>
+        <p class="section-lead">
+          STEP 1 → 2 → 3 の順にやってみよう。ボタンを押すと画面の下にエディタが出てくる。左に書くと、右にすぐ表示される。書いた内容はこのPCのブラウザに自動で保存されます。
+        </p>
+        <div class="grid grid-3 reveal">
+          <div class="card card-accent step-card">
+            <p class="eyebrow">STEP 1 / 約10分</p>
+            <h4 class="c-html">HTML — 自己紹介カード</h4>
+            <p>「???」を自分の情報に書きかえる。<code>&lt;li&gt;</code> を1行ふやして好きなものを追加。</p>
+            <p class="goal"><strong>ゴール:</strong> 自分の名前と3つの項目が表示されている</p>
+            <button type="button" class="btn btn-primary btn-sm open-step" data-step="step1">このステップをエディタで開く</button>
+          </div>
+          <div class="card card-accent step-card">
+            <p class="eyebrow">STEP 2 / 約10分</p>
+            <h4 class="c-css">CSS — 見た目を変える</h4>
+            <p>背景色・角丸・影・文字サイズを変える。正解はない。自分の好きな見た目に。</p>
+            <p class="goal"><strong>ゴール:</strong> 最初と見た目が3か所以上ちがう</p>
+            <button type="button" class="btn btn-primary btn-sm open-step" data-step="step2">このステップをエディタで開く</button>
+          </div>
+          <div class="card card-accent lime step-card">
+            <p class="eyebrow">STEP 3 / 約10分</p>
+            <h4 class="c-js">JavaScript — 動きをつける</h4>
+            <p>ボタンを押すと色が変わる＆カウントアップ。数字・色・メッセージをいじる。</p>
+            <p class="goal"><strong>ゴール:</strong> 10回押したときのメッセージを自分の言葉に変える</p>
+            <button type="button" class="btn btn-primary btn-sm open-step" data-step="step3">このステップをエディタで開く</button>
+          </div>
+        </div>
+        <div class="callout info" style="margin-top: 20px">
+          <span class="callout-icon">⌨</span>
+          <div>
+            <p>エディタは画面の下からスライドして出てきます。右下の <strong>「&lt;/&gt; エディタ」</strong> ボタン、またはキーボードの <kbd>E</kbd> でいつでも開閉（<kbd>Esc</kbd> で閉じる）。開いたまま資料をスクロールしてOK。上のつまみをドラッグで高さを変えられます。</p>
+          </div>
+        </div>
+
+        <div class="callout ok" style="margin-top: 20px">
+          <span class="callout-icon">✓</span>
+          <div>
+            <p><strong>できたら:</strong>「コードをコピー」を押すと、HTML・CSS・JSを1つにまとめたファイルの中身がコピーされます。メモ帳に貼って <code>mypage.html</code> という名前で保存 → ダブルクリックでブラウザに表示できます。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 5.5 早見表 ========== -->
+      <section class="slide cheatsheet" id="cheatsheet">
+        <div class="section-head">
+          <div class="section-num">05+</div>
+          <div class="section-title">
+            <span class="time-label">いつでも見返す</span>
+            <h2>よく使うタグ・プロパティ早見表</h2>
+          </div>
+        </div>
+        <p class="section-lead">
+          名前を覚えなくて大丈夫。エディタの左の「ヒント」パネルから同じものをクリックで入れられます。この表は印刷しても読めます。
+        </p>
+        <div class="grid grid-3 cheat-grid reveal">
+          <div class="card card-accent cheat-card">
+            <p class="eyebrow">HTML ／ 中身を書く</p>
+            <h4 class="c-html">タグ</h4>
+            <table class="cheat-table">
+              <thead><tr><th>書き方</th><th>意味</th></tr></thead>
+              <tbody>
+                <tr><td><code>&lt;h1&gt;見出し&lt;/h1&gt;</code></td><td>大きな見出し（h2, h3 で小さく）</td></tr>
+                <tr><td><code>&lt;p&gt;段落&lt;/p&gt;</code></td><td>ふつうの文章</td></tr>
+                <tr><td><code>&lt;img src="URL" alt="説明"&gt;</code></td><td>画像を出す</td></tr>
+                <tr><td><code>&lt;a href="URL"&gt;リンク&lt;/a&gt;</code></td><td>押すと別ページへ</td></tr>
+                <tr><td><code>&lt;ul&gt;&lt;li&gt;項目&lt;/li&gt;&lt;/ul&gt;</code></td><td>箇条書き（li を増やす）</td></tr>
+                <tr><td><code>&lt;button&gt;ボタン&lt;/button&gt;</code></td><td>押せるボタン</td></tr>
+                <tr><td><code>&lt;div class="box"&gt;…&lt;/div&gt;</code></td><td>まとまり（箱）を作る</td></tr>
+                <tr><td><code>&lt;span&gt;…&lt;/span&gt;</code></td><td>文の一部だけ囲む</td></tr>
+                <tr><td><code>&lt;br&gt;</code></td><td>改行</td></tr>
+                <tr><td><code>id="名前"</code> / <code>class="名前"</code></td><td>CSS や JS から見つける目印</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="card card-accent magenta cheat-card">
+            <p class="eyebrow">CSS ／ 見た目を変える</p>
+            <h4 class="c-css">プロパティ</h4>
+            <table class="cheat-table">
+              <thead><tr><th>書き方</th><th>意味</th></tr></thead>
+              <tbody>
+                <tr><td><code>color: red;</code></td><td>文字の色</td></tr>
+                <tr><td><code>background: #1f5eff;</code></td><td>背景の色</td></tr>
+                <tr><td><code>font-size: 24px;</code></td><td>文字の大きさ</td></tr>
+                <tr><td><code>font-weight: bold;</code></td><td>文字の太さ</td></tr>
+                <tr><td><code>text-align: center;</code></td><td>文字の位置（左・中央・右）</td></tr>
+                <tr><td><code>padding: 16px;</code></td><td>内側の余白</td></tr>
+                <tr><td><code>margin: 16px;</code></td><td>外側の余白</td></tr>
+                <tr><td><code>border: 2px solid black;</code></td><td>枠線（太さ 種類 色）</td></tr>
+                <tr><td><code>border-radius: 16px;</code></td><td>角を丸くする</td></tr>
+                <tr><td><code>box-shadow: 0 8px 24px rgba(0,0,0,0.2);</code></td><td>影をつける</td></tr>
+                <tr><td><code>width: 300px;</code> / <code>height: 100px;</code></td><td>横幅 / 高さ</td></tr>
+                <tr><td><code>display: flex; gap: 12px;</code></td><td>中身を横に並べる</td></tr>
+                <tr><td><code>transition: 0.3s;</code></td><td>なめらかに変化させる</td></tr>
+                <tr><td><code>button:hover { … }</code></td><td>マウスを乗せたときの見た目</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="card card-accent lime cheat-card">
+            <p class="eyebrow">JavaScript ／ 動きをつける</p>
+            <h4 class="c-js">よく使う文</h4>
+            <table class="cheat-table">
+              <thead><tr><th>書き方</th><th>意味</th></tr></thead>
+              <tbody>
+                <tr><td><code>document.querySelector("#id")</code></td><td>要素を1つ取ってくる</td></tr>
+                <tr><td><code>el.addEventListener("click", () =&gt; { })</code></td><td>押したときに { } の中を実行</td></tr>
+                <tr><td><code>el.textContent = "文字";</code></td><td>中の文字を変える</td></tr>
+                <tr><td><code>el.style.background = "pink";</code></td><td>見た目を変える</td></tr>
+                <tr><td><code>var count = 0;</code> / <code>count++;</code></td><td>数を入れる箱 / 1ふやす</td></tr>
+                <tr><td><code>if (count &gt; 10) { }</code></td><td>もし…なら { } をやる</td></tr>
+                <tr><td><code>Math.random()</code></td><td>0〜1 のランダムな数</td></tr>
+                <tr><td><code>setInterval(() =&gt; { }, 1000)</code></td><td>1000ms ごとにくり返す</td></tr>
+                <tr><td><code>console.log("確認");</code></td><td>コンソールに文字を出す（デバッグ）</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="callout info cheat-print-note" style="margin-top: 20px">
+          <span class="callout-icon">🖨</span>
+          <div>
+            <p>この表は <kbd>Ctrl</kbd>+<kbd>P</kbd>（Mac は <kbd>⌘</kbd>+<kbd>P</kbd>）で印刷すると、早見表だけが白黒で出ます。机に置いておくと便利。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 6. ハンズオン② ========== -->
+      <section class="slide" id="handson2">
+        <div class="section-head">
+          <div class="section-num">06</div>
+          <div class="section-title">
+            <span class="time-label">1:20 – 1:45</span>
+            <h2>ハンズオン②: AIで開発体験</h2>
+          </div>
+        </div>
+        <p class="section-lead">
+          今度はAIにコードを書いてもらいます。<strong>ログイン不要</strong>で使える <a href="https://duck.ai" target="_blank" rel="noopener noreferrer">duck.ai</a> を使います。
+          「AIが書く → エディタに貼る → 動かす → 直してもらう」をくり返すのが、今のプロの開発に近いやり方。
+        </p>
+        <div class="hero-actions">
+          <a href="https://duck.ai" class="btn btn-primary" target="_blank" rel="noopener noreferrer">duck.ai を開く（新しいタブ）</a>
+          <button type="button" class="btn open-step" data-step="free">エディタの「自由」ステップを開く</button>
+        </div>
+
+        <h3>手順</h3>
+        <ul class="steps-list reveal">
+          <li><div>duck.ai を開く。「Start Chat」でチャット画面に（モデルはどれでもOK）</div></li>
+          <li><div>下のプロンプト例を「コピー」→ duck.ai に貼って送信</div></li>
+          <li><div>AIが出したコードの右上「Copy」を押す → エディタ（右下のボタンか <kbd>E</kbd>）の「自由」ステップ、HTMLタブに貼る</div></li>
+          <li><div>右に表示される。動かなければ、コンソールの赤い文字をAIに送って「直して」</div></li>
+          <li><div>気に入るまで「ここを変えて」をくり返す。どんどん注文しよう</div></li>
+        </ul>
+
+        <h3>プロンプト例（コピーして使おう）</h3>
+        <div class="prompt-box">
+          <p class="label">PROMPT 1 — まずはこれ</p>
+          <button type="button" class="btn btn-sm copy-btn" data-copy="#prompt1">コピー</button>
+          <pre id="prompt1">HTML・CSS・JavaScript を1つのHTMLファイルにまとめて、「おみくじアプリ」を作ってください。
+条件:
+- ボタンを押すと「大吉」「中吉」「小吉」「凶」のどれかがランダムで大きく表示される
+- 結果によって背景色が変わる
+- スマホでも見やすいデザイン
+- 外部ライブラリやCDNは使わない
+- コードは1つのコードブロックにまとめて出してください</pre>
+        </div>
+        <div class="prompt-box">
+          <p class="label">PROMPT 2 — 直してもらう</p>
+          <button type="button" class="btn btn-sm copy-btn" data-copy="#prompt2">コピー</button>
+          <pre id="prompt2">さっきのコードを次のように変えてください。変更後のコード全体をもう一度出してください。
+- ボタンを押した回数を表示する
+- 結果が出るときにふわっとアニメーションする
+- 全体の色をダーク系にする</pre>
+        </div>
+        <div class="prompt-box">
+          <p class="label">PROMPT 3 — エラーを直してもらう</p>
+          <button type="button" class="btn btn-sm copy-btn" data-copy="#prompt3">コピー</button>
+          <pre id="prompt3">このコードを動かしたら、次のエラーが出ました。原因と直し方を教えて、直したコード全体を出してください。
+エラー: （ここにコンソールの赤い文字を貼る）</pre>
+        </div>
+        <div class="prompt-box">
+          <p class="label">PROMPT 4 — 自由課題のアイデア</p>
+          <button type="button" class="btn btn-sm copy-btn" data-copy="#prompt4">コピー</button>
+          <pre id="prompt4">高校生が5分で遊べる、ブラウザで動く小さなゲームを1つ提案して、HTML・CSS・JavaScript を1つのファイルにまとめたコードを出してください。外部ライブラリは使わないでください。</pre>
+        </div>
+
+        <div class="grid grid-2 reveal">
+          <div class="callout" style="margin: 0">
+            <span class="callout-icon">⚠</span>
+            <div>
+              <p><strong>個人情報を入れない。</strong>名前・住所・学校名・友だちのことなどはAIに送らない。</p>
+            </div>
+          </div>
+          <div class="callout" style="margin: 0">
+            <span class="callout-icon">⚠</span>
+            <div>
+              <p><strong>AIの出力はまちがうこともある。</strong>動かない・変なときは「ここがおかしい」と伝えて直してもらう。最後に判断するのは人間。</p>
+            </div>
+          </div>
+        </div>
+        <div class="callout info">
+          <span class="callout-icon">💬</span>
+          <div>
+            <p><strong>解説で使えるひとこと:</strong>「AIはコードを出してくれるけど、“何を作るか決める”“合っているか確かめる”のは人の仕事。選手はその力がすごく高い人たちです。」</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 7. ミニ競技体験 ========== -->
+      <section class="slide" id="mini">
+        <div class="section-head">
+          <div class="section-num">07</div>
+          <div class="section-title">
+            <span class="time-label">時間があれば ／ 5分</span>
+            <h2>ミニ競技体験</h2>
+          </div>
+        </div>
+        <p class="section-lead">
+          競技の「デザインカンプを再現する」を5分だけ体験。見本のカードを、CSSだけでできるだけ近づけよう。HTMLは用意してあります。
+        </p>
+        <div class="spec-wrap reveal">
+          <div class="spec-stage">
+            <div class="spec-card" aria-label="見本のカード">
+              <span class="tag">12/5-6 開催</span>
+              <h5>技能五輪 全国大会</h5>
+              <p>ウェブデザイン職種を見学しよう。会場はAichi Sky Expo。</p>
+              <button type="button">くわしく見る</button>
+            </div>
+          </div>
+          <div class="spec-notes">
+            <h4>仕様書（スペック）</h4>
+            <table>
+              <tr><td>カード 幅</td><td>300px</td></tr>
+              <tr><td>カード 背景</td><td><span class="swatch" style="background: #fff"></span>#ffffff</td></tr>
+              <tr><td>カード 角丸 / 余白</td><td>16px / 24px</td></tr>
+              <tr><td>カード 影</td><td>0 12px 32px rgba(20,40,90,0.15)</td></tr>
+              <tr><td>タグ 背景 / 文字</td><td><span class="swatch" style="background: #e7f0ff"></span>#e7f0ff / <span class="swatch" style="background: #1f5eff"></span>#1f5eff</td></tr>
+              <tr><td>タグ 文字 / 角丸</td><td>12px 太字 / 999px</td></tr>
+              <tr><td>見出し</td><td>20px 太字</td></tr>
+              <tr><td>説明文</td><td>14px / <span class="swatch" style="background: #5b667d"></span>#5b667d</td></tr>
+              <tr><td>ボタン</td><td>横いっぱい / #1f5eff / 白 / 角丸 10px / 余白 12px</td></tr>
+            </table>
+            <p style="margin-top: 14px">
+              <button type="button" class="btn btn-primary open-step" data-step="mini">ミニ競技をエディタで開く</button>
+            </p>
+            <p>
+              <strong>採点のまね:</strong>5分たったら隣の人と見せ合って、「見本と同じところ」「ちがうところ」を3つずつ言う。これが審査員の仕事。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 8. 解説ストーリーの種づくり ========== -->
+      <section class="slide" id="story">
+        <div class="section-head">
+          <div class="section-num">08</div>
+          <div class="section-title">
+            <span class="time-label">1:45 – 2:00</span>
+            <h2>解説ストーリーの種づくり</h2>
+          </div>
+        </div>
+        <p class="section-lead">
+          12月の会場で、見学に来た小学生・中学生に話すときの「自分の言葉」を作ります。下の欄に書いてOK（このPCに保存されます）。書いたら3〜4人で発表。
+        </p>
+        <div class="worksheet reveal">
+          <div class="ws-q">
+            <p class="q">小学生に30秒で「ウェブデザイン職種」を説明するなら、なんて言う？</p>
+            <textarea data-key="q1" placeholder="例: みんなが見てるYouTubeとかゲームの画面、あれを作る競技です。見本を見て、同じものを時間内に作ります。"></textarea>
+          </div>
+          <div class="ws-q">
+            <p class="q">今日やった中で、いちばん「へぇ」と思ったことは？（それが一番伝わる話になる）</p>
+            <textarea data-key="q2" placeholder="例: DevToolsでニュースサイトの見出しを書きかえられたこと"></textarea>
+          </div>
+          <div class="ws-q">
+            <p class="q">見学者に出すクイズを1つ考えよう（答えも）</p>
+            <textarea data-key="q3" placeholder="例: Q. HTMLを全部消すとどうなる？ → A. 真っ白になる"></textarea>
+          </div>
+          <div class="ws-q">
+            <p class="q">選手のすごさを伝えるひとこと</p>
+            <textarea data-key="q4" placeholder="例: 自分は5分でカード1枚もできなかったけど、選手は2時間半でアプリを1つ作る"></textarea>
+          </div>
+        </div>
+
+        <h3>クイズ案（そのまま使ってOK）</h3>
+        <ul class="quiz-list reveal">
+          <li><details><summary>Q. HTMLを全部消すとどうなる？</summary><p>A. 真っ白。中身がないので何も表示されない。CSSもJSも効かせる相手がいない。</p></details></li>
+          <li><details><summary>Q. CSSを全部消すとどうなる？</summary><p>A. 文字と画像だけの白黒ページになる。内容は全部残っているけど、見た目が「素」になる。DevToolsで実演できる。</p></details></li>
+          <li><details><summary>Q. JavaScriptを全部消すとどうなる？</summary><p>A. 見た目はそのまま。でもボタンを押しても何も起きない。動きが全部止まる。</p></details></li>
+          <li><details><summary>Q. 選手は競技で何を使っている？</summary><p>A. エディタ・ブラウザ・DevTools。特別な機械はなく、プロと同じ道具。</p></details></li>
+          <li><details><summary>Q. 課題はいつわかる？</summary><p>A. 当日。だから「何が来ても作れる力」を練習する。</p></details></li>
+          <li><details><summary>Q. 1つの課題の時間はどれくらい？</summary><p>A. 全国大会は1つ1〜3時間くらい。国際大会は4日間で合計15時間以上。</p></details></li>
+        </ul>
+
+        <h3>発表のしかた</h3>
+        <ul class="steps-list lime reveal">
+          <li><div>3〜4人のグループで、1人ずつ「30秒説明」を言う（時間をはかる）</div></li>
+          <li><div>聞いた人は「わかりやすかったところ」を1つ言う</div></li>
+          <li><div>グループでいちばん伝わる説明を1つ選んで、全体に発表</div></li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div>
+          <h4>講師</h4>
+          <ul>
+            <li>戸田 駿太（クラスメソッド株式会社）</li>
+            <li><a href="https://dev.classmethod.jp/articles/worldskills-lyon-2024-experience-report/" target="_blank" rel="noopener noreferrer">WorldSkills Lyon 2024 出場レポート</a></li>
+            <li><a href="https://dev.classmethod.jp/articles/highschool-vibe-coding/" target="_blank" rel="noopener noreferrer">高校生とAIでウェブ開発した記録</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>参考リンク</h4>
+          <ul>
+            <li><a href="https://www.javada.or.jp/jigyou/gino/zenkoku/" target="_blank" rel="noopener noreferrer">技能五輪全国大会（JAVADA 中央職業能力開発協会）</a></li>
+            <li><a href="https://worldskills.org/skills/id/127/" target="_blank" rel="noopener noreferrer">WorldSkills — Web Technologies</a></li>
+            <li><a href="https://duck.ai" target="_blank" rel="noopener noreferrer">duck.ai</a></li>
+            <li><a href="https://developer.mozilla.org/ja/" target="_blank" rel="noopener noreferrer">MDN Web Docs（HTML/CSS/JSの辞書）</a></li>
+          </ul>
+        </div>
+      </div>
+      <p class="copy">技能五輪・アビリンピック2026 競技解説ガイド 勉強会 ／ 2026.08.24 愛知県立小牧工科高等学校</p>
+    </footer>
+
+    <aside class="drawer" id="editorDrawer" aria-label="コードエディタ" aria-hidden="true">
+      <div class="drawer-handle" id="drawerHandle" title="ドラッグで高さを変更" aria-hidden="true"><span></span></div>
+      <div class="editor" id="editor">
+        <div class="editor-top">
+          <div class="step-tabs" id="stepTabs" role="tablist" aria-label="ステップ"></div>
+          <div class="editor-actions">
+            <button type="button" class="btn btn-sm btn-lime" id="runBtn">▶ 実行</button>
+            <button type="button" class="btn btn-sm" id="resetBtn">リセット</button>
+            <button type="button" class="btn btn-sm" id="copyBtn">コードをコピー</button>
+            <button type="button" class="btn btn-sm" id="maximizeBtn" aria-pressed="false" title="最大化 / 元に戻す">最大化</button>
+            <button type="button" class="btn btn-sm" id="drawerClose" title="閉じる (Esc)">✕ 閉じる</button>
+          </div>
+        </div>
+        <div class="step-desc">
+          <h4 id="stepTitle"></h4>
+          <p id="stepText"></p>
+          <details>
+            <summary>ヒントを見る</summary>
+            <div id="stepHint"></div>
+          </details>
+        </div>
+        <div class="editor-body">
+          <aside class="hints" id="hintsPanel" aria-label="ヒント">
+            <button type="button" class="hints-toggle" id="hintsToggle" aria-expanded="true" aria-controls="hintsBody" title="ヒントを開閉">
+              <span class="hints-toggle-icon" aria-hidden="true">◀</span><span class="hints-toggle-label">ヒント</span>
+            </button>
+            <div class="hints-body" id="hintsBody">
+              <div class="hints-help">
+                <p class="hints-help-title">困ったら</p>
+                <ol>
+                  <li>ヒントをクリックして入れてみる</li>
+                  <li>コンソールの赤い文字を読む</li>
+                  <li>「リセット」で最初に戻せる</li>
+                </ol>
+              </div>
+              <div class="hints-tabs" id="hintsTabs" role="tablist" aria-label="ヒントの言語">
+                <button type="button" class="hints-tab" role="tab" data-lang="html" aria-selected="true">HTML</button>
+                <button type="button" class="hints-tab" role="tab" data-lang="css" aria-selected="false">CSS</button>
+                <button type="button" class="hints-tab" role="tab" data-lang="js" aria-selected="false">JS</button>
+              </div>
+              <p class="hints-note">クリックするとカーソルの位置に入ります</p>
+              <div class="hints-list" id="hintsList"></div>
+            </div>
+          </aside>
+          <div class="editor-pane">
+            <div class="lang-tabs" id="langTabs" role="tablist" aria-label="言語">
+              <button type="button" class="lang-tab" role="tab" data-lang="html" aria-selected="true">HTML</button>
+              <button type="button" class="lang-tab" role="tab" data-lang="css" aria-selected="false">CSS</button>
+              <button type="button" class="lang-tab" role="tab" data-lang="js" aria-selected="false">JS</button>
+            </div>
+            <div class="code-wrap" data-lang="html">
+              <label class="sr-only" for="codeHtml">HTML</label>
+              <textarea class="code-area" id="codeHtml" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off"></textarea>
+            </div>
+            <div class="code-wrap" data-lang="css" hidden>
+              <label class="sr-only" for="codeCss">CSS</label>
+              <textarea class="code-area" id="codeCss" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off"></textarea>
+            </div>
+            <div class="code-wrap" data-lang="js" hidden>
+              <label class="sr-only" for="codeJs">JavaScript</label>
+              <textarea class="code-area" id="codeJs" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off"></textarea>
+            </div>
+          </div>
+          <div class="preview-pane">
+            <div class="preview-head"><span>PREVIEW</span><span class="status" id="previewStatus">● 表示中</span></div>
+            <iframe class="preview-frame" id="preview" title="プレビュー" sandbox="allow-scripts"></iframe>
+            <div class="console">
+              <div class="console-head"><span>CONSOLE</span><button type="button" id="consoleClear">クリア</button></div>
+              <ul class="console-list" id="consoleList"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <button type="button" class="fab" id="drawerToggle" aria-expanded="false" aria-controls="editorDrawer">&lt;/&gt; エディタ</button>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="vendor/codemirror/codemirror.js"></script>
+    <script src="vendor/codemirror/xml.js"></script>
+    <script src="vendor/codemirror/css.js"></script>
+    <script src="vendor/codemirror/javascript.js"></script>
+    <script src="vendor/codemirror/htmlmixed.js"></script>
+    <script src="vendor/codemirror/closebrackets.js"></script>
+    <script src="vendor/codemirror/closetag.js"></script>
+    <script src="vendor/codemirror/matchbrackets.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
