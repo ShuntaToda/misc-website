@@ -15,14 +15,14 @@
 | `app.js` | 自作エディタ、スクリーンモード、コピーボタン、ワークシート保存。ステップの初期コードは `STEPS`、04「同じHTMLでも…」積み重ねデモ（コード表示 + iframe srcdoc）は `EXAMPLE` / `STACK_STAGES` から描画（「3つの言葉の役割」カードは用語解説のみでコードは出さない）、エディタ左の「ヒント」パネルの内容は `HINTS`（言語 × ステップ。ステップ未指定なら `common`）に定義 |
 | `offline.html` | `index.html` に CSS/JS を全部インライン化した1ファイル版。ネットが無くてもダブルクリックで開ける保険。**画像・動画は `images/` を相対パス参照しているので、フォルダごと USB に入れること** |
 | `images/` | 写真・動画（下記「画像・動画」参照） |
-| `vendor/codemirror/` | エディタ用の CodeMirror 5.65.18（MIT、`LICENSE` 同梱）。CDN は使わずローカル同梱。core + xml/css/javascript/htmlmixed モード + material-darker テーマ + closebrackets/closetag/matchbrackets アドオン |
+| `vendor/codemirror/` | エディタ用の CodeMirror 5.65.18（MIT、`LICENSE` 同梱）。CDN は使わずローカル同梱。core + xml/css/javascript/htmlmixed モード + material-darker テーマ + closebrackets/closetag/matchbrackets アドオン + runmode アドオン（04 積み重ねデモのコード表示のシンタックスハイライト用。`CodeMirror.runMode(code, "text/html", el)`） |
 
 ### offline.html の同期ルール
 
 `index.html` / `style.css` / `app.js` を直したら、`offline.html` も手で同期する。
 やり方: `index.html` の `<link rel="stylesheet" href="style.css" />` を `<style>…</style>`（style.css の中身）に、
 `<script src="app.js"></script>` を `<script>…</script>`（app.js の中身）に置き換えるだけ。
-`vendor/codemirror/*.css` の `<link>` と `*.js` の `<script src>` も同じ順番でインライン化する（offline.html は vendor も内包していて、ファイル単体で動く）。
+`vendor/codemirror/*.css` の `<link>` と `*.js` の `<script src>`（codemirror / xml / css / javascript / htmlmixed / closebrackets / closetag / matchbrackets / runmode の順）も同じ順番でインライン化する（offline.html は vendor も内包していて、ファイル単体で動く）。
 `app.js` の中に `</script>` という文字列を書かないこと（コメントも含む。インライン化したときにタグが閉じる）。同様に `<!--` も書かない（`HINTS` / `STEPS` のコード例に必要なら `"<!\x2d-"` のようにエスケープする）。
 再生成後は、インライン部分を元の `<link>` / `<script src>` に戻すと `index.html` と一致することを確認する。
 
@@ -32,6 +32,7 @@
   - 内容は「現在のステップ × 現在の言語タブ」で切り替わる（`HINTS[lang][stepId]` → 無ければ `HINTS[lang].common`）。STEP1 = HTML タグ、STEP2 = CSS プロパティ（値の例 2〜3 パターン＋色パレット）、STEP3 = JS の定番。ミニ競技・自由はパネル上部の HTML/CSS/JS タブで全セットを切替（エディタの言語タブと連動）
   - CSS タブには色パレット（赤〜黒の10色）。クリックで色コード文字列だけが入る（`color: ` を入れてから色を押す使い方）
   - 上部に「困ったら」3行（ヒントをクリック / コンソールの赤い文字を読む / リセットで戻せる）
+  - パネル右端の縦のつまみを左右ドラッグで幅 180〜480px に変更（CSS 変数 `--hints-w`、localStorage `komaki2026.hintsWidth`）。コードとプレビューの境界も同様にドラッグで比率 25〜75% を変更（`--code-fr` / `--preview-fr`、`komaki2026.splitRatio`）。860px 以下の縦積みレイアウトではつまみ無効
   - 「◀ ヒント」ボタンで折りたたみ。開閉状態は localStorage `komaki2026.hintsOpen` に保存。保存が無いときは初期「開」、ただし画面幅 800px 未満とスクリーンモード中は初期「閉」
 - **早見表セクション**（`#cheatsheet`、ハンズオン①の直後、ナビ「早見表」）: HTML / CSS / JS の3カラムに「書き方 / 意味」の表。スクリーンモードのスライドにも含まれる。`Ctrl+P` で印刷すると `@media print` で早見表だけが白背景・黒文字で出る（配布用）
 
@@ -45,13 +46,14 @@
 | --- | --- | --- |
 | `national2024-competing.jpg` | 第62回 技能五輪全国大会（2024）ウェブデザイン職種 競技中（残り時間表示） | 02 技能五輪とは「大会の雰囲気」 |
 | `aichi2025-medals.jpg` | あいち技能五輪・アビリンピック2025 のメダル（金・銀・銅） | 02 技能五輪とは「大会の雰囲気」 |
-| `lyon2024-opening-ceremony.jpg` | WorldSkills Lyon 2024 開会式 | 02 「全国大会 → 国際大会への道」図の下 |
-| `lyon2024.mp4` / `lyon2024-poster.jpg` | WorldSkills Lyon 2024 会場の動画（縦 960×1280、約10秒、`autoplay muted loop playsinline`）とそのポスター画像 | 02 「全国大会 → 国際大会への道」図の下（開会式写真の横） |
+| `lyon2024-competing-area.jpg` | WorldSkills Lyon 2024 Web Technologies 競技エリア（日の丸のブースで講師が競技中、隣はカナダ。正方形 1200×1200） | 02 「全国大会 → 国際大会への道」図の下 |
+| `lyon2024-competing-me.jpg` | 競技中の講師（2画面でコードを書く後ろ姿。正方形 1500×1500） | 02 「全国大会 → 国際大会への道」図の下 |
+| `lyon2024.mp4` / `lyon2024-poster.jpg` | WorldSkills Lyon 2024 会場の動画（縦 960×1280、約10秒、`autoplay muted loop playsinline`）とそのポスター画像 | 02 「全国大会 → 国際大会への道」図の下（競技写真2枚の横） |
 | `national2025-venue.jpg` | 第63回 技能五輪全国大会（2025）ウェブデザイン職種 会場（開始前） | 03 ウェブデザイン職種とは |
 | `devtools-step1-open.jpg` / `devtools-step2-panel.jpg` / `devtools-step3-edit.jpg` | DevTools の操作手順（右クリック→検証 / Elements と Styles / h1 行の拡大）。2026/01 の体験会素材を流用。丸枠・ラベルは CSS オーバーレイ（画像に対する % 配置）で重ねている | 04 「DevTools で好きなサイトを書きかえてみよう」 |
 | `national2024-banner.jpg` | 第62回 技能五輪全国大会（2024）ウェブデザイン職種 競技紹介バナー（縦長） | 03 ウェブデザイン職種とは |
 
-- 縦長の写真・動画は `<figure class="photo portrait">` に入れ、親を `.photo-grid.with-portrait`（2fr : 1fr）にすると横長写真と高さがそろう。
+- 縦長の写真・動画は `<figure class="photo portrait">` に入れ、親を `.photo-grid.with-portrait`（2fr : 1fr）にすると横長写真と高さがそろう。正方形2枚＋縦長1枚は `.photo-grid.with-portrait.three`（4fr : 4fr : 3fr）＋ `<figure class="photo square">`。
 - 変換の例: `sips -s format jpeg -s formatOptions 70 -Z 1600 in.jpg --out images/x.jpg` / `ffmpeg -i in.mp4 -an -vf "scale=-2:1280,format=yuv420p" -c:v libx264 -crf 30 -preset slow -movflags +faststart images/lyon2024.mp4`
 
 ## 事前確認事項（前日〜当日朝）

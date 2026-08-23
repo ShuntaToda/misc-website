@@ -663,7 +663,13 @@
         var text = EXAMPLE[l].replace(/\n$/, "");
         if (l === "css") text = "<style>\n" + text + "\n</style>";
         if (l === "js") text = "<script>\n" + text + "\n<\/script>";
-        span.textContent = text + (isNew ? "" : "\n\n");
+        text += isNew ? "" : "\n\n";
+        // vendor/codemirror/runmode.js があればシンタックスハイライト（無ければプレーン表示）
+        if (window.CodeMirror && window.CodeMirror.runMode) {
+          window.CodeMirror.runMode(text, "text/html", span);
+        } else {
+          span.textContent = text;
+        }
         pre.appendChild(span);
       });
       body.appendChild(pre);
@@ -838,6 +844,113 @@
     });
   }
 
+  /* ---------------------------------------------------------
+     3.6 左右ドラッグ: ヒント幅 / コードとプレビューの比率
+     --------------------------------------------------------- */
+  var HINTS_W_KEY = "komaki2026.hintsWidth";
+  var SPLIT_KEY = "komaki2026.splitRatio";
+  var HINTS_W_MIN = 180;
+  var HINTS_W_MAX = 480;
+  var HINTS_W_DEFAULT = 240;
+  var SPLIT_MIN = 0.25;
+  var SPLIT_MAX = 0.75;
+
+  function setHintsWidth(px, save) {
+    px = Math.round(Math.max(HINTS_W_MIN, Math.min(HINTS_W_MAX, px)));
+    document.documentElement.style.setProperty("--hints-w", px + "px");
+    if (save) storageSet(HINTS_W_KEY, px);
+    return px;
+  }
+
+  function setSplitRatio(ratio, save) {
+    ratio = Math.max(SPLIT_MIN, Math.min(SPLIT_MAX, ratio));
+    document.documentElement.style.setProperty("--code-fr", ratio.toFixed(3) + "fr");
+    document.documentElement.style.setProperty("--preview-fr", (1 - ratio).toFixed(3) + "fr");
+    if (save) storageSet(SPLIT_KEY, Math.round(ratio * 1000) / 1000);
+    return ratio;
+  }
+
+  // 汎用: 横ドラッグ。onMove(clientX) / onEnd()。マウスとタッチ両対応
+  function initColumnDrag(handle, onStart, onMove, onEnd) {
+    if (!handle) return;
+    function clientX(e) {
+      return e.touches ? e.touches[0].clientX : e.clientX;
+    }
+    function move(e) {
+      onMove(clientX(e));
+      if (e.cancelable && !e.touches) e.preventDefault();
+    }
+    function up() {
+      handle.classList.remove("is-active");
+      document.body.classList.remove("is-col-dragging");
+      document.removeEventListener("mousemove", move);
+      document.removeEventListener("mouseup", up);
+      document.removeEventListener("touchmove", move);
+      document.removeEventListener("touchend", up);
+      onEnd();
+      refreshEditors();
+    }
+    function down(e) {
+      if (isNarrow() || window.innerWidth <= 860) return;
+      onStart(clientX(e));
+      handle.classList.add("is-active");
+      document.body.classList.add("is-col-dragging");
+      document.addEventListener("mousemove", move);
+      document.addEventListener("mouseup", up);
+      document.addEventListener("touchmove", move, { passive: true });
+      document.addEventListener("touchend", up);
+      if (e.cancelable && !e.touches) e.preventDefault();
+    }
+    handle.addEventListener("mousedown", down);
+    handle.addEventListener("touchstart", down, { passive: true });
+  }
+
+  function initColumnResizers() {
+    var savedW = storageGet(HINTS_W_KEY);
+    setHintsWidth(typeof savedW === "number" ? savedW : HINTS_W_DEFAULT, false);
+    var savedR = storageGet(SPLIT_KEY);
+    setSplitRatio(typeof savedR === "number" ? savedR : 0.5, false);
+
+    // ヒント幅
+    var hintsLeft = 0;
+    initColumnDrag(
+      $("#hintsResizer"),
+      function () {
+        hintsLeft = editor.hintsPanel.getBoundingClientRect().left;
+      },
+      function (x) {
+        setHintsWidth(x - hintsLeft, false);
+        refreshEditorsSoon();
+      },
+      function () {
+        storageSet(HINTS_W_KEY, parseInt(getComputedStyle(document.documentElement).getPropertyValue("--hints-w"), 10));
+      }
+    );
+
+    // コード / プレビューの比率
+    var splitLeft = 0;
+    var splitWidth = 1;
+    var ratioNow = 0.5;
+    initColumnDrag(
+      $("#splitResizer"),
+      function () {
+        var pane = $(".editor-pane", editor.root);
+        var prev = $(".preview-pane", editor.root);
+        var a = pane.getBoundingClientRect();
+        var b = prev.getBoundingClientRect();
+        splitLeft = a.left;
+        splitWidth = Math.max(1, b.right - a.left);
+      },
+      function (x) {
+        ratioNow = setSplitRatio((x - splitLeft) / splitWidth, false);
+        refreshEditorsSoon();
+      },
+      function () {
+        storageSet(SPLIT_KEY, Math.round(ratioNow * 1000) / 1000);
+      }
+    );
+  }
+
   // スクリーンモードに入ったとき、保存された好みが無ければヒントをたたむ
   function onScreenModeChangedForHints(on) {
     if (!editor.hintsPanel) return;
@@ -952,6 +1065,7 @@
     initExample();
 
     initHints();
+    initColumnResizers();
     loadStep("step1");
   }
 
